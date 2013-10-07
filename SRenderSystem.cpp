@@ -79,9 +79,6 @@ void SRenderSystem::receive(const ComponentAddedEvent<ModelComponent> &modelcomp
     scn->addSceneNode(node->componentnode);
     node->componentnode->setPosition(pos->getPositionLF());
     node->componentnode->setRotation(rot->getRotationLF());
-    //std::cout << gho->x << std::endl;
-    //std::cout << gho->y << std::endl;
-    //std::cout << ent << std::endl;
 
 }
 void SRenderSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt)
