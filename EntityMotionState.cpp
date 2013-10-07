@@ -29,9 +29,9 @@ void EntityMotionState::setWorldTransform(const btTransform &worldTrans)
     if(pos)
     {
         pos->setPosition(worldTrans.getOrigin());
-        #ifdef DEBUG
+#ifdef DEBUG
         std::cout << pos->x << " - " << pos->y << " - " << pos->z << std::endl;
-        #endif // DEBUG
+#endif // DEBUG
     }
     entityx::ptr<RotationComponent> rot = entity.component<RotationComponent>();
     if(rot)
@@ -58,7 +58,7 @@ void EntityMotionState::setWorldTransform(const btTransform &worldTrans)
     }
 
     this->events->emit<PositionChangedEvent>(this->entity);
-mPos1 = worldTrans;
+    mPos1 = worldTrans;
 
 
 

@@ -61,10 +61,10 @@ void SRenderSystem::receive(const PositionChangedEvent &poschange)
     entityx::ptr<RotationComponent> rot = ent.component<RotationComponent>();
     if(model)
     {
-    model->componentnode->setPosition(pos->getPositionLF());
-    model->componentnode->setRotation(rot->getRotationLF());
-    core::quaternion qt = rot->getRotationLF();
-    //std::cout << "node : " << ent.id() << " pos : " << model->componentnode->getRotationQuaternion().X << " - " << model->componentnode->getRotationQuaternion().Y  << " - " << model->componentnode->getRotationQuaternion().Z  << std::endl;
+        model->componentnode->setPosition(pos->getPositionLF());
+        model->componentnode->setRotation(rot->getRotationLF());
+        core::quaternion qt = rot->getRotationLF();
+        //std::cout << "node : " << ent.id() << " pos : " << model->componentnode->getRotationQuaternion().X << " - " << model->componentnode->getRotationQuaternion().Y  << " - " << model->componentnode->getRotationQuaternion().Z  << std::endl;
     }
     //std::cout << "entity : " << ent.id() << " pos : " << pos->x << " - " << pos->y << " - " << pos->z << std::endl;
 
@@ -83,34 +83,34 @@ void SRenderSystem::receive(const ComponentAddedEvent<ModelComponent> &modelcomp
 }
 void SRenderSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt)
 {
-        for (auto entity : es->entities_with_components<InputComponent, ModelComponent>())
-        {
+    for (auto entity : es->entities_with_components<InputComponent, ModelComponent>())
+    {
 
-            entityx::ptr<InputComponent> inp = entity.component<InputComponent>();
-            if(inp->up == true)
-            {
-                entityx::ptr<ModelComponent> mod = entity.component<ModelComponent>();
-                mod->componentnode->moveUp(1.0f);
-                inp->up = false;
-            }
-        }
-        u32 polycount = rwin->getTotalPolygonCount();
-        u32 oneSecFPS = rwin->getOneSecondFPS();
-        // Only update the window caption if either the FPS,
-        // or the number of polygons has changed.
-        if(lastFPS != oneSecFPS || lastPolyCount != polycount)
+        entityx::ptr<InputComponent> inp = entity.component<InputComponent>();
+        if(inp->up == true)
         {
-            wchar_t tmp[256];
-            snwprintf(tmp,
-                      256,
-                      L"Lightfeather Tutorial 1 - Polys: %u FPS(1sec): %d",
-                      polycount,
-                      oneSecFPS);
-            rwin->setWindowCaption(tmp);
-            lastFPS = oneSecFPS;
-            lastPolyCount = polycount;
+            entityx::ptr<ModelComponent> mod = entity.component<ModelComponent>();
+            mod->componentnode->moveUp(1.0f);
+            inp->up = false;
         }
-        //std::cout << "cam : " << cam->getPosition().X << " - " << cam->getPosition().Y << " - " << cam->getPosition().Z <<std::endl;
+    }
+    u32 polycount = rwin->getTotalPolygonCount();
+    u32 oneSecFPS = rwin->getOneSecondFPS();
+    // Only update the window caption if either the FPS,
+    // or the number of polygons has changed.
+    if(lastFPS != oneSecFPS || lastPolyCount != polycount)
+    {
+        wchar_t tmp[256];
+        snwprintf(tmp,
+                  256,
+                  L"Lightfeather Tutorial 1 - Polys: %u FPS(1sec): %d",
+                  polycount,
+                  oneSecFPS);
+        rwin->setWindowCaption(tmp);
+        lastFPS = oneSecFPS;
+        lastPolyCount = polycount;
+    }
+    //std::cout << "cam : " << cam->getPosition().X << " - " << cam->getPosition().Y << " - " << cam->getPosition().Z <<std::endl;
     CLFRender::getInstance().update();
 }
 
@@ -140,7 +140,7 @@ void SRenderSystem::setupScene()
 
 
     light = new scene::CLight(
-    core::CColorF(0.4f, 0.0f, 0.0f, 1.0f), core::CColorF(1.0f, 1.0f, 1.0f, 1.0f), core::CColorF(0.0f, 0.0f, 0.0f, 1.0f), 200.0f, 0.0f, 0.0f, 1.0f / 500.0f, 0.0f);
+        core::CColorF(0.4f, 0.0f, 0.0f, 1.0f), core::CColorF(1.0f, 1.0f, 1.0f, 1.0f), core::CColorF(0.0f, 0.0f, 0.0f, 1.0f), 200.0f, 0.0f, 0.0f, 1.0f / 500.0f, 0.0f);
     light->setPosition(cam->getPosition());
     scn->addLight(light);
     scn->addSceneNode(light);

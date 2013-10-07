@@ -10,11 +10,11 @@ using namespace entityx;
 
 struct CDebuggingSystem : public System<CDebuggingSystem>, Receiver<CDebuggingSystem>
 {
-    public:
-        CDebuggingSystem();
-        virtual ~CDebuggingSystem();
-        void configure(entityx::ptr<EventManager> event_manager);
-        void update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt) override;
+public:
+    CDebuggingSystem();
+    virtual ~CDebuggingSystem();
+    void configure(entityx::ptr<EventManager> event_manager);
+    void update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt) override;
 
 
 };

@@ -10,22 +10,22 @@ using namespace entityx;
 
 struct CPhysicsSystem : public System<CPhysicsSystem>, Receiver<CPhysicsSystem>
 {
-    public:
-        btDiscreteDynamicsWorld* dynamicsWorld;
+public:
+    btDiscreteDynamicsWorld* dynamicsWorld;
 
-        CPhysicsSystem();
-        virtual ~CPhysicsSystem();
-        void configure(entityx::ptr<EventManager> event_manager);
+    CPhysicsSystem();
+    virtual ~CPhysicsSystem();
+    void configure(entityx::ptr<EventManager> event_manager);
 
-        // Notifications if PhysicsComponents are added to an entity
-        void receive(const ComponentAddedEvent<PhysicsGhostComponent> &physicscomponent);
-        void receive(const ComponentAddedEvent<PhysicsComponent> &physicscomponent);
+    // Notifications if PhysicsComponents are added to an entity
+    void receive(const ComponentAddedEvent<PhysicsGhostComponent> &physicscomponent);
+    void receive(const ComponentAddedEvent<PhysicsComponent> &physicscomponent);
 
-        // Called by main-loop
-        void update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt) override;
+    // Called by main-loop
+    void update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt) override;
 
-        void checkGhostCollision();
-        void processGhostCollisions(btAlignedObjectArray<btCollisionObject*>& obj, btGhostObject *ghost);
+    void checkGhostCollision();
+    void processGhostCollisions(btAlignedObjectArray<btCollisionObject*>& obj, btGhostObject *ghost);
 
 };
 
