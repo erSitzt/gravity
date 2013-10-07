@@ -42,9 +42,6 @@ void SInputSystem::keyPressed(input::CKeyEvent& event)
     switch(event.getKey())
     {
     case input::KEY_UP:
-        // We close the window, so on the next call to
-        // CLFRender::update() it will return false and
-        // the application will be terminated.
         std::cout << "Taste gedrückt!" << std::endl;
         up = true;
         break;

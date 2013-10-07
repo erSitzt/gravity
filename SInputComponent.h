@@ -11,6 +11,7 @@ struct InputComponent : Component<InputComponent>
     bool right;
     bool up;
     bool down;
+    input::EKEY_CODE key;
 
     InputComponent()
     {
