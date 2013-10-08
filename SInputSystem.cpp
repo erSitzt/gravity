@@ -21,10 +21,16 @@ void SInputSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventMana
     for (auto entity : es->entities_with_components<InputComponent>())
     {
         entityx::ptr<InputComponent> inputcomp = entity.component<InputComponent>();
-
         inputcomp->up = up;
+        inputcomp->down = down;
+        inputcomp->left = left;
+        inputcomp->right = right;
     }
     up = false;
+    down = false;
+    left = false;
+    right = false;
+
 
 
 }
@@ -44,6 +50,18 @@ void SInputSystem::keyPressed(input::CKeyEvent& event)
     case input::KEY_UP:
         std::cout << "Taste gedrückt!" << std::endl;
         up = true;
+        break;
+    case input::KEY_DOWN:
+        std::cout << "Taste gedrückt!" << std::endl;
+        down = true;
+        break;
+    case input::KEY_LEFT:
+        std::cout << "Taste gedrückt!" << std::endl;
+        left = true;
+        break;
+    case input::KEY_RIGHT:
+        std::cout << "Taste gedrückt!" << std::endl;
+        right = true;
         break;
     default:
         break;

@@ -18,6 +18,7 @@ void GameManager::configure()
     system_manager->add<CPhysicsSystem>();
     system_manager->add<SRenderSystem>();
     system_manager->add<SInputSystem>();
+    system_manager->add<SMovementSystem>();
 }
 void GameManager::initialize()
 {
@@ -48,7 +49,9 @@ void GameManager::initialize()
         if(i == 0)
         {
             tmpentity.assign<InputComponent>();
-            tmpentity.assign<PhysicsGhostComponent>(new btSphereShape(btScalar(10000)), position->getPositionBT());
+            tmpentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(rotation->getRotationBT(), position->getPositionBT()), tmpentity, event_manager), 10, btVector3(0,0,0));
+            //tmpentity.assign<PhysicsGhostComponent>(new btSphereShape(btScalar(10000)), position->getPositionBT());
+
 
         }
         else
@@ -69,6 +72,7 @@ void GameManager::update(double dt)
     std::cout << "GameManager update" << std::endl;
 #endif // DEBUG
     system_manager->update<SInputSystem>(dt);
+    system_manager->update<SMovementSystem>(dt);
     system_manager->update<CPhysicsSystem>(dt);
     system_manager->update<SRenderSystem>(dt);
 }

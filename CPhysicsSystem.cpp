@@ -63,34 +63,7 @@ void CPhysicsSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventMa
 #ifdef DEBUG
     std::cout << "Physics Update" << std::endl;
 #endif // DEBUG
-    for (auto entity : es->entities_with_components<InputComponent, PhysicsComponent>())
-    {
 
-        entityx::ptr<InputComponent> inp = entity.component<InputComponent>();
-        if(inp->up == true)
-        {
-            entityx::ptr<PhysicsComponent> phys = entity.component<PhysicsComponent>();
-            btVector3 vec = btVector3(0,1,0);
-            vec = vec.normalized();
-            phys->rigidBody->applyCentralImpulse(vec * 100);
-            inp->up = false;
-        }
-    }
-    for (auto entity : es->entities_with_components<InputComponent, PhysicsGhostComponent>())
-    {
-
-        entityx::ptr<InputComponent> inp = entity.component<InputComponent>();
-        if(inp->up == true)
-        {
-            entityx::ptr<PhysicsGhostComponent> gho = entity.component<PhysicsGhostComponent>();
-            btVector3 upDir = gho->ghost->getWorldTransform().getBasis()[1];
-            upDir.normalize();
-            btVector3 oldpos = gho->ghost->getWorldTransform().getOrigin();
-            gho->ghost->getWorldTransform().setOrigin(oldpos + upDir);
-
-            inp->up = false;
-        }
-    }
     dynamicsWorld->stepSimulation(1/60.f,10);
     checkGhostCollision();
 }

@@ -4,5 +4,6 @@
 #include "CPhysicsSystem.h"
 #include "SRenderSystem.h"
 #include "SInputSystem.h"
+#include "SMovementSystem.h"
 
 #endif // SYSTEMS_H_INCLUDED
