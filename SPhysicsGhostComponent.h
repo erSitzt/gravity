@@ -9,6 +9,7 @@ using namespace entityx;
 
 struct PhysicsGhostComponent : Component<PhysicsGhostComponent>
 {
+
     btGhostObject *ghost;
     btCollisionShape *ghostshape;
     btVector3 position;

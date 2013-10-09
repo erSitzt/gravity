@@ -74,50 +74,7 @@ void CTutorial1::run()
     // to the main() function in tutorial1.cpp.
     while(!quitNow)
     {
-        /* Get the number of polygons rendered and the number of FPS.
-           You can get polygon counts off each camera you are using
-           or the total of polygons rendered in one render window which,
-           of course, is the same if you only have one camera as we do in
-           this tutorial.
-           There are four different FPS values:
-               rwin->getCurrentFPS()
-                   current one;
-               rwin->getOneSecondFPS()
-                   over the last second;
-               rwin->getFiveSecondFPS()
-                   over the last 5 seconds;
-               rwin->getThirtySecondFPS()
-                   over the last 30 seconds.
-        */
-//        u32 polycount = rwin->getTotalPolygonCount();
-//        u32 oneSecFPS = rwin->getOneSecondFPS();
-//        // Only update the window caption if either the FPS,
-//        // or the number of polygons has changed.
-//        if(lastFPS != oneSecFPS || lastPolyCount != polycount)
-//        {
-//            wchar_t tmp[256];
-//            snwprintf(tmp,
-//                      256,
-//                      L"Lightfeather Tutorial 1 - Polys: %u FPS(1sec): %d",
-//                      polycount,
-//                      oneSecFPS);
-//            rwin->setWindowCaption(tmp);
-//            lastFPS = oneSecFPS;
-//            lastPolyCount = polycount;
-//        }
 
-        //btTransform trans;
-        //fallRigidBody->getMotionState()->getWorldTransform(trans);
-
-        //moved to PhysicsSystem
-        //checkGhostCollision();
-//
-//        std::cout << "position : " << cam->getPosition().X << " - " << cam->getPosition().Y << " - " << cam->getPosition().Z << std::endl;
-//        std::cout << "lightpos : " << light->getPosition().X << " - " << light->getPosition().Y << " - " << light->getPosition().Z << std::endl;
-//        std::cout << "target   : " << cam->getTarget().X << " - " << cam->getTarget().Y << " - " << cam->getTarget().Z << std::endl;
-//        // The update method handles all updates and rendering inside LF.
-        // It returns false if there's nothing left to render (all render
-        // windows have been closed). Otherwise it returns true.
 
         manager.run();
         //quitNow = !CLFRender::getInstance().update();

@@ -25,8 +25,7 @@ void GameManager::initialize()
 #ifdef DEBUG
     std::cout << "GameManager initialize" << std::endl;
 #endif // DEBUG
-//    entityx::Entity entity1 = entity_manager->create();
-//    entity1.assign<PhysicsGhostComponent>(new btSphereShape(btScalar(10)));
+
 
 
     core::stringc blenderDir = "/home/ersitzt/Blender";

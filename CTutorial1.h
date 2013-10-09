@@ -44,8 +44,7 @@ private:
     // too often since changing the caption of a window is pretty slow.
     u32 lastFPS;
     u32 lastPolyCount;
-
-    btRigidBody* fallRigidBody;
+btRigidBody* fallRigidBody;
     GameManager manager;
 };
 

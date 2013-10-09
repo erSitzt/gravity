@@ -88,6 +88,7 @@ void CPhysicsSystem::checkGhostCollision()
 #ifdef DEBUG
             std::cout << ghost->getNumOverlappingObjects() << std::endl;
 #endif // DEBUG
+
             processGhostCollisions(*pObjsInsideGhostObject, ghost);
         }
     }

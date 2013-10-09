@@ -25,4 +25,5 @@ protected:
 private:
 };
 
+
 #endif // ENTITYMOTIONSTATE_H

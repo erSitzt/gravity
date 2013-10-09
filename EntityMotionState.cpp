@@ -1,6 +1,5 @@
 #include "EntityMotionState.h"
 
-
 EntityMotionState::EntityMotionState(const btTransform &initialpos, entityx::Entity entity, entityx::ptr<EventManager> events)
 {
     //ctor
