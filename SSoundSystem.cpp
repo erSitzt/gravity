@@ -20,6 +20,6 @@ void SSoundSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventMana
     for (auto entity : es->entities_with_components<SoundComponent>())
     {
         entityx::ptr<SoundComponent> soundcomp = entity.component<SoundComponent>();
-        //soundcomp->sound.play();
+        soundcomp->sound.play();
     }
 }

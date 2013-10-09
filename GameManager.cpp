@@ -19,14 +19,13 @@ void GameManager::configure()
     system_manager->add<SRenderSystem>();
     system_manager->add<SInputSystem>();
     system_manager->add<SMovementSystem>();
+    system_manager->add<SSoundSystem>();
 }
 void GameManager::initialize()
 {
 #ifdef DEBUG
     std::cout << "GameManager initialize" << std::endl;
 #endif // DEBUG
-
-
 
     core::stringc blenderDir = "/home/ersitzt/Blender";
     CLFPersistence::getInstance().getFileSystem()->addSearchPath(blenderDir.c_str());
@@ -48,6 +47,7 @@ void GameManager::initialize()
         if(i == 0)
         {
             tmpentity.assign<InputComponent>();
+            tmpentity.assign<SoundComponent>("/home/ersitzt/test.wav");
             tmpentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(rotation->getRotationBT(), position->getPositionBT()), tmpentity, event_manager), 10, btVector3(0,0,0));
             //tmpentity.assign<PhysicsGhostComponent>(new btSphereShape(btScalar(10000)), position->getPositionBT());
 
@@ -73,5 +73,6 @@ void GameManager::update(double dt)
     system_manager->update<SInputSystem>(dt);
     system_manager->update<SMovementSystem>(dt);
     system_manager->update<CPhysicsSystem>(dt);
+    system_manager->update<SSoundSystem>(dt);
     system_manager->update<SRenderSystem>(dt);
 }

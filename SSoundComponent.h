@@ -2,7 +2,7 @@
 #pragma once
 
 #include <entityx.h>
-
+#include <SFML/Audio.hpp>
 
 using namespace entityx;
 
@@ -10,13 +10,13 @@ struct SoundComponent : Component<SoundComponent>
 {
     std::string file;
 
-    //sf::Sound sound;
-    //sf::SoundBuffer buffer;
+    sf::Sound sound;
+    sf::SoundBuffer buffer;
 
     SoundComponent(const std::string soundfile) : file(soundfile)
     {
-        //buffer.loadFromFile(file);
-        //sound.setBuffer(buffer);
+        buffer.loadFromFile(file);
+        sound.setBuffer(buffer);
     }
 };
 
