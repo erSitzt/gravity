@@ -22,6 +22,7 @@ struct PhysicsComponent : Component<PhysicsComponent>
         btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(mass,motionState,shape,fallInertia);
         rigidBody = new btRigidBody(rigidBodyCI);
         rigidBody->setActivationState(DISABLE_DEACTIVATION);
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
 
     }
 

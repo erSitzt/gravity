@@ -1,5 +1,5 @@
 #include "CPhysicsSystem.h"
-
+extern ContactAddedCallback gContactAddedCallback;
 CPhysicsSystem::CPhysicsSystem()
 {
     //ctor
@@ -9,6 +9,12 @@ CPhysicsSystem::~CPhysicsSystem()
 {
     //dtor
 }
+bool contactCallbackFunction(btManifoldPoint& cp,const btCollisionObjectWrapper* obj1,int id0,int index0,const btCollisionObjectWrapper* obj2,int id1,int index1)
+{
+    std::cout << "collision" << std::endl;
+    return false;
+}
+
 void CPhysicsSystem::configure(entityx::ptr<EventManager> event_manager)
 {
     std::cout << "CPhysicsSystem configure" << std::endl;
@@ -33,6 +39,8 @@ void CPhysicsSystem::configure(entityx::ptr<EventManager> event_manager)
     btGhostPairCallback *ghostCall = new btGhostPairCallback();
     dynamicsWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(ghostCall);
 
+    gContactAddedCallback = contactCallbackFunction;
+
     event_manager->subscribe<ComponentAddedEvent<PhysicsGhostComponent>>(*this);
     event_manager->subscribe<ComponentAddedEvent<PhysicsComponent>>(*this);
 }
@@ -45,6 +53,19 @@ void CPhysicsSystem::receive(const ComponentAddedEvent<PhysicsGhostComponent> &p
     if(phys)
     {
         gho->ghost->setUserPointer(phys->rigidBody);
+/*
+    Wichtig !!! Pointer auf das Entity anstatt nur auf den RigidBody
+*/
+//        entityx::ptr<entityx::Entity> retrentity (&ent);
+//        gho->ghost->setUserPointer((void*)&retrentity);
+//        entityx::ptr<entityx::Entity> tetete ((entityx::Entity*)gho->ghost->getUserPointer());
+//        entityx::ptr<PhysicsComponent> phsu = tetete->component<PhysicsComponent>();
+//        if(phsu)
+//        {
+//            btRigidBody *bla = phsu->rigidBody;
+//            std::cout << "affe" << std::endl;
+//        }
+
     }
     dynamicsWorld->addCollisionObject(gho->ghost,btBroadphaseProxy::SensorTrigger,btBroadphaseProxy::AllFilter & ~btBroadphaseProxy::SensorTrigger);
 
