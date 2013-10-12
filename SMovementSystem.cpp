@@ -32,7 +32,7 @@ void SMovementSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventM
                     {
                         btVector3 vec = btVector3(0,1,0);
                         vec = vec.normalized();
-                        physics->rigidBody->applyCentralImpulse(vec * 10);
+                        physics->rigidBody->applyCentralImpulse(vec * 100);
                         input->up = false;
 
                     }
@@ -40,7 +40,7 @@ void SMovementSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventM
                     {
                         btVector3 vec = btVector3(0,-1,0);
                         vec = vec.normalized();
-                        physics->rigidBody->applyCentralImpulse(vec * 10);
+                        physics->rigidBody->applyCentralImpulse(vec * 100);
                         input->down = false;
 
                     }
@@ -48,7 +48,7 @@ void SMovementSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventM
                     {
                         btVector3 vec = btVector3(1,0,0);
                         vec = vec.normalized();
-                        physics->rigidBody->applyCentralImpulse(vec * 10);
+                        physics->rigidBody->applyCentralImpulse(vec * 100);
                         input->left = false;
 
                     }
@@ -56,7 +56,7 @@ void SMovementSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventM
                     {
                         btVector3 vec = btVector3(-1,0,0);
                         vec = vec.normalized();
-                        physics->rigidBody->applyCentralImpulse(vec * 10);
+                        physics->rigidBody->applyCentralImpulse(vec * 100);
                         input->right = false;
 
                     }

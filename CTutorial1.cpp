@@ -17,45 +17,7 @@ using namespace entityx;
 // in the first frame.
 CTutorial1::CTutorial1() : lastFPS(0), lastPolyCount(0)
 {
-
-//    rwin = CLFRender::getInstance().createRenderWindow(
-//               core::vector2di(300, 0), // Position of the upper left corner
-//               core::vector2d<s32>(1280, 1024), // Size of the window.
-//               32, // Number of color bits to use,
-//               32, // Number of bits to use in the depth buffer.
-//               render::EWCF_AUTOCLOSE, // This parameter is actually a list of
-//               render::EAAF_16); // Anti-aliasing factor.
-//
-//    // Set default window caption.
-//    rwin->setWindowCaption(L"Lightfeather Tutorial 1");
-//    // Make the window visible. Since we didn't specify EWCF_VISIBLE,
-//    // the window has been invisible until now.
-//    rwin->setVisible(true);
-//    // We register ourselves as a key listener with the render window
-//    // (see CTutorial1.h for more details). CTutorial1 is the listener
-//    // and the render window is the class that generates events.
-//    rwin->addKeyListener(this);
-//    rwin->addMouseListener(this);
-//
-//    // First find the application directory.
-//    core::stringc mediaDir =
-//        CLFOS::getInstance().getFileSystem()->getApplicationDirectory();
-//    // Then add the relative path to the media directory.
-//    mediaDir += "/../../examples/media";
-//    // Finally add that directory to the search path of the
-//    // persistence framework's filesystem.
-//    CLFPersistence::getInstance().getFileSystem()->addSearchPath(mediaDir.c_str());
-//
-//    scn = rwin->getRenderLayer3D()->getScene();
-//
-//    CLFRender::getInstance().setAutoSleep(0);
-    // Set up our 3D scene.
-    //setupScene();
-    // Set up our 2D render pane to display LF logo.
-    //setup2D();
-
     manager.start();
-
 }
 
 // Destructor
@@ -127,9 +89,6 @@ void CTutorial1::setup2D()
 
 void CTutorial1::setupScene()
 {
-    // EntityX
-    entityx::ptr<entityx::EventManager> events = entityx::EventManager::make();
-    entityx::ptr<entityx::EntityManager> entities = entityx::EntityManager::make(events);
 
     // We create a 3D camera which is the camera with a perspective
     // projection (the default for any 3D application).

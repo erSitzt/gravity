@@ -12,8 +12,9 @@ struct CPhysicsSystem : public System<CPhysicsSystem>, Receiver<CPhysicsSystem>
 {
 public:
     btDiscreteDynamicsWorld* dynamicsWorld;
+    entityx::ptr<EntityManager> em;
 
-    CPhysicsSystem();
+    CPhysicsSystem(entityx::ptr<EntityManager> em);
     virtual ~CPhysicsSystem();
     void configure(entityx::ptr<EventManager> event_manager);
 

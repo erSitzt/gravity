@@ -1,8 +1,11 @@
 #include "CPhysicsSystem.h"
 extern ContactAddedCallback gContactAddedCallback;
-CPhysicsSystem::CPhysicsSystem()
+CPhysicsSystem::CPhysicsSystem(entityx::ptr<EntityManager> em)
 {
     //ctor
+    em = em;
+
+
 }
 
 CPhysicsSystem::~CPhysicsSystem()
@@ -12,7 +15,10 @@ CPhysicsSystem::~CPhysicsSystem()
 bool contactCallbackFunction(btManifoldPoint& cp,const btCollisionObjectWrapper* obj1,int id0,int index0,const btCollisionObjectWrapper* obj2,int id1,int index1)
 {
     std::cout << "collision" << std::endl;
-    return false;
+
+    /** TODO (ersitzt#1#12.10.2013): Handle collision events, as soon as UserPointer with Bullet works */
+
+
 }
 
 void CPhysicsSystem::configure(entityx::ptr<EventManager> event_manager)
@@ -20,27 +26,18 @@ void CPhysicsSystem::configure(entityx::ptr<EventManager> event_manager)
     std::cout << "CPhysicsSystem configure" << std::endl;
 
     //Setup Bullet Physics
-
-    // Build the broadphase
     btBroadphaseInterface* broadphase = new btDbvtBroadphase();
-
-    // Set up the collision configuration and dispatcher
     btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
     btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
-
-    // The actual physics solver
     btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver;
-
-    // The world.
     dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher,broadphase,solver,collisionConfiguration);
     dynamicsWorld->setGravity(btVector3(0,0,0));
-
     // Ghost-Objects
     btGhostPairCallback *ghostCall = new btGhostPairCallback();
     dynamicsWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(ghostCall);
-
+    // Collision callback
     gContactAddedCallback = contactCallbackFunction;
-
+    // entityx event we subscribe to
     event_manager->subscribe<ComponentAddedEvent<PhysicsGhostComponent>>(*this);
     event_manager->subscribe<ComponentAddedEvent<PhysicsComponent>>(*this);
 }
@@ -48,32 +45,23 @@ void CPhysicsSystem::receive(const ComponentAddedEvent<PhysicsGhostComponent> &p
 {
     entityx::Entity ent = physicsghostcomponent.entity;
     entityx::ptr<PhysicsGhostComponent> gho = physicsghostcomponent.component;
-    // Check if this Entity also has PhysicsComponent
+
+    /** TODO (ersitzt#1#12.10.2013): Find a way to add userPointer to an Entity for CollisionCallback */
     entityx::ptr<PhysicsComponent> phys = ent.component<PhysicsComponent>();
     if(phys)
     {
         gho->ghost->setUserPointer(phys->rigidBody);
-/*
-    Wichtig !!! Pointer auf das Entity anstatt nur auf den RigidBody
-*/
-//        entityx::ptr<entityx::Entity> retrentity (&ent);
-//        gho->ghost->setUserPointer((void*)&retrentity);
-//        entityx::ptr<entityx::Entity> tetete ((entityx::Entity*)gho->ghost->getUserPointer());
-//        entityx::ptr<PhysicsComponent> phsu = tetete->component<PhysicsComponent>();
-//        if(phsu)
-//        {
-//            btRigidBody *bla = phsu->rigidBody;
-//            std::cout << "affe" << std::endl;
-//        }
-
     }
+
     dynamicsWorld->addCollisionObject(gho->ghost,btBroadphaseProxy::SensorTrigger,btBroadphaseProxy::AllFilter & ~btBroadphaseProxy::SensorTrigger);
 
 }
 void CPhysicsSystem::receive(const ComponentAddedEvent<PhysicsComponent> &physicscomponent)
 {
     entityx::ptr<PhysicsComponent> phys = physicscomponent.component;
-    entityx::Entity ent = physicscomponent.entity;
+    entityx::Entity entity = physicscomponent.entity;
+
+    /** TODO (ersitzt#2#12.10.2013): Find a way to add userPointer to an Entity for CollisionCallback */
 
     dynamicsWorld->addRigidBody(phys->rigidBody);
 
@@ -127,6 +115,12 @@ void CPhysicsSystem::processGhostCollisions(btAlignedObjectArray<btCollisionObje
         btCollisionObject* o = obj[i];
         btRigidBody *b = btRigidBody::upcast(o);
         btRigidBody *ghostbody = (btRigidBody*)ghost->getUserPointer();
+//        entityx::ptr<entityx::Entity> tetete ((entityx::Entity*)ghost->getUserPointer());
+//        entityx::ptr<PhysicsComponent> phys = tetete->component<PhysicsComponent>();
+//        if(phys)
+//        {
+//            ghostbody = phys->rigidBody;
+//        }
         if(NULL != b && b != ghostbody)
         {
             btTransform trans;

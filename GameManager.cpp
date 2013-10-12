@@ -4,6 +4,10 @@
 GameManager::GameManager()
 {
     //ctor
+    // EntityX
+    events = entityx::EventManager::make();
+    em = entityx::EntityManager::make(events);
+
 }
 
 GameManager::~GameManager()
@@ -15,7 +19,7 @@ void GameManager::configure()
 #ifdef DEBUG
     std::cout << "GameManager configure" << std::endl;
 #endif // DEBUG
-    system_manager->add<CPhysicsSystem>();
+    system_manager->add<CPhysicsSystem>(em);
     system_manager->add<SRenderSystem>();
     system_manager->add<SInputSystem>();
     system_manager->add<SMovementSystem>();
@@ -34,7 +38,7 @@ void GameManager::initialize()
     model->getMesh(0)->getVertexBuffer()->setColor(0, 0, core::CColorI(255, 0, 0, 255));
     scene::CModelSceneNode *modelNode = new scene::CModelSceneNode(model);
 
-    for(int i = 0; i<=500; i++)
+    for(int i = 0; i<=50; i++)
     {
         entityx::Entity tmpentity = entity_manager->create();
         tmpentity.assign<PositionComponent>(CLFOS::getInstance().getRandomizer()->randf() * i + 10,CLFOS::getInstance().getRandomizer()->randf() *i +10,CLFOS::getInstance().getRandomizer()->randf()*i +10);
@@ -48,10 +52,17 @@ void GameManager::initialize()
         {
             tmpentity.assign<InputComponent>();
             tmpentity.assign<SoundComponent>("/home/ersitzt/test.wav");
+            tmpentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(rotation->getRotationBT(), position->getPositionBT()), tmpentity, event_manager), 1000, btVector3(0,0,0));
+            /** TODO (ersitzt#1#12.10.2013): GhostComponent not working until userPointer in Bullet is working */
+
+            tmpentity.assign<PhysicsGhostComponent>(new btSphereShape(btScalar(10000)), position->getPositionBT());
+
+
+        }
+        else if(i == 1)
+        {
+            tmpentity.assign<InputComponent>();
             tmpentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(rotation->getRotationBT(), position->getPositionBT()), tmpentity, event_manager), 10, btVector3(0,0,0));
-            //tmpentity.assign<PhysicsGhostComponent>(new btSphereShape(btScalar(10000)), position->getPositionBT());
-
-
         }
         else
         {

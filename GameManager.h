@@ -18,6 +18,8 @@ protected:
     void initialize();
     void update(double dt);
 private:
+    entityx::ptr<entityx::EventManager> events;
+    entityx::ptr<entityx::EntityManager> em;
 };
 
 #endif // GAMEMANAGER_H

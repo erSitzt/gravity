@@ -22,7 +22,7 @@ void SSoundSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventMana
         entityx::ptr<SoundComponent> soundcomp = entity.component<SoundComponent>();
         if(soundcomp->sound.getStatus() != sf::Sound::Statusi::Playing)
         {
-        soundcomp->sound.play();
+        //soundcomp->sound.play();
         }
     }
 }
