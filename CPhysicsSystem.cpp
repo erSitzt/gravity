@@ -1,24 +1,37 @@
 #include "CPhysicsSystem.h"
 extern ContactAddedCallback gContactAddedCallback;
-CPhysicsSystem::CPhysicsSystem(entityx::ptr<EntityManager> em)
+
+CPhysicsSystem::CPhysicsSystem(entityx::ptr<entityx::EntityManager> em)
 {
     //ctor
-    em = em;
-
-
+    entityx::EntityManager * hans = (entityx::EntityManager*)em.get();
+    emptr = hans;
 }
 
 CPhysicsSystem::~CPhysicsSystem()
 {
     //dtor
 }
-bool contactCallbackFunction(btManifoldPoint& cp,const btCollisionObjectWrapper* obj1,int id0,int index0,const btCollisionObjectWrapper* obj2,int id1,int index1)
+bool CPhysicsSystem::contactCallbackFunction(btManifoldPoint& cp,const btCollisionObjectWrapper* obj1,int id0,int index0,const btCollisionObjectWrapper* obj2,int id1,int index1)
 {
     std::cout << "collision" << std::endl;
-
+    static_assert(sizeof(void*) == sizeof(uint64_t), "need 64 bit pointers");
     /** TODO (ersitzt#1#12.10.2013): Handle collision events, as soon as UserPointer with Bullet works */
+    // alec
+    //Entity::Id id(reinterpret_cast<uint64_t>(obj1->getCollisionObject()->getUserPointer()));
+    BulletCallbackHelper *helper = reinterpret_cast<BulletCallbackHelper*>(obj1->getCollisionObject()->getUserPointer());
 
+    //EntityManager *tetete = ((EntityManager*)helper->entitymanager);
+    entityx::EntityManager *tetete = (entityx::EntityManager*)(helper->entitymanager);
 
+    entityx::Entity ent = tetete->get(helper->entityid);
+
+    entityx::ptr<SoundComponent> sound = ent.component<SoundComponent>();
+    if(sound)
+    {
+        std::string snd = "/home/ersitzt/impact.wav";
+        sound->setSound(snd, true);
+    }
 }
 
 void CPhysicsSystem::configure(entityx::ptr<EventManager> event_manager)
@@ -36,7 +49,7 @@ void CPhysicsSystem::configure(entityx::ptr<EventManager> event_manager)
     btGhostPairCallback *ghostCall = new btGhostPairCallback();
     dynamicsWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(ghostCall);
     // Collision callback
-    gContactAddedCallback = contactCallbackFunction;
+    gContactAddedCallback = CPhysicsSystem::contactCallbackFunction;
     // entityx event we subscribe to
     event_manager->subscribe<ComponentAddedEvent<PhysicsGhostComponent>>(*this);
     event_manager->subscribe<ComponentAddedEvent<PhysicsComponent>>(*this);
@@ -50,7 +63,7 @@ void CPhysicsSystem::receive(const ComponentAddedEvent<PhysicsGhostComponent> &p
     entityx::ptr<PhysicsComponent> phys = ent.component<PhysicsComponent>();
     if(phys)
     {
-        gho->ghost->setUserPointer(phys->rigidBody);
+        gho->ghost->setUserPointer(reinterpret_cast<void*>(new BulletCallbackHelper(ent.id(), emptr)));
     }
 
     dynamicsWorld->addCollisionObject(gho->ghost,btBroadphaseProxy::SensorTrigger,btBroadphaseProxy::AllFilter & ~btBroadphaseProxy::SensorTrigger);
@@ -60,6 +73,10 @@ void CPhysicsSystem::receive(const ComponentAddedEvent<PhysicsComponent> &physic
 {
     entityx::ptr<PhysicsComponent> phys = physicscomponent.component;
     entityx::Entity entity = physicscomponent.entity;
+    // alec
+    //phys->rigidBody->setUserPointer(reinterpret_cast<void*>(entity.id().id()));
+    phys->rigidBody->setUserPointer(reinterpret_cast<void*>(new BulletCallbackHelper(entity.id(), emptr)));
+
 
     /** TODO (ersitzt#2#12.10.2013): Find a way to add userPointer to an Entity for CollisionCallback */
 
@@ -115,13 +132,13 @@ void CPhysicsSystem::processGhostCollisions(btAlignedObjectArray<btCollisionObje
         btCollisionObject* o = obj[i];
         btRigidBody *b = btRigidBody::upcast(o);
         btRigidBody *ghostbody = (btRigidBody*)ghost->getUserPointer();
-//        entityx::ptr<entityx::Entity> tetete ((entityx::Entity*)ghost->getUserPointer());
-//        entityx::ptr<PhysicsComponent> phys = tetete->component<PhysicsComponent>();
-//        if(phys)
-//        {
-//            ghostbody = phys->rigidBody;
-//        }
-        if(NULL != b && b != ghostbody)
+
+        BulletCallbackHelper *helper = reinterpret_cast<BulletCallbackHelper*>(b->getUserPointer());
+        entityx::EntityManager *mgr = (entityx::EntityManager*)(helper->entitymanager);
+        entityx::Entity ghostent = mgr->get(helper->entityid);
+        entityx::ptr<PhysicsGhostComponent> ghostcomp = ghostent.component<PhysicsGhostComponent>();
+
+        if(NULL != b && !ghostcomp)
         {
             btTransform trans;
             b->getMotionState()->getWorldTransform(trans);

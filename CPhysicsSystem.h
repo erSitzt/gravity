@@ -12,7 +12,7 @@ struct CPhysicsSystem : public System<CPhysicsSystem>, Receiver<CPhysicsSystem>
 {
 public:
     btDiscreteDynamicsWorld* dynamicsWorld;
-    entityx::ptr<EntityManager> em;
+    EntityManager *emptr;
 
     CPhysicsSystem(entityx::ptr<EntityManager> em);
     virtual ~CPhysicsSystem();
@@ -27,8 +27,19 @@ public:
 
     void checkGhostCollision();
     void processGhostCollisions(btAlignedObjectArray<btCollisionObject*>& obj, btGhostObject *ghost);
-    //bool contactCallbackFunction(btManifoldPoint& cp,const btCollisionObjectWrapper* obj1,int id0,int index0,const btCollisionObjectWrapper* obj2,int id1,int index1);
+    static bool contactCallbackFunction(btManifoldPoint& cp,const btCollisionObjectWrapper* obj1,int id0,int index0,const btCollisionObjectWrapper* obj2,int id1,int index1);
 
+};
+
+struct BulletCallbackHelper
+{
+    entityx::Entity::Id entityid;
+    EntityManager *entitymanager;
+
+    BulletCallbackHelper(Entity::Id entityid, EntityManager *entitymanager) : entityid(entityid), entitymanager(entitymanager)
+    {
+        //ctor
+    }
 };
 
 #endif // CPHYSICSSYSTEM_H

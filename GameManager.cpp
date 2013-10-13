@@ -1,13 +1,10 @@
 #include "GameManager.h"
 
+using namespace entityx;
 
 GameManager::GameManager()
 {
     //ctor
-    // EntityX
-    events = entityx::EventManager::make();
-    em = entityx::EntityManager::make(events);
-
 }
 
 GameManager::~GameManager()
@@ -19,7 +16,7 @@ void GameManager::configure()
 #ifdef DEBUG
     std::cout << "GameManager configure" << std::endl;
 #endif // DEBUG
-    system_manager->add<CPhysicsSystem>(em);
+    system_manager->add<CPhysicsSystem>(entity_manager);
     system_manager->add<SRenderSystem>();
     system_manager->add<SInputSystem>();
     system_manager->add<SMovementSystem>();
@@ -45,19 +42,18 @@ void GameManager::initialize()
         tmpentity.assign<RotationComponent>();
         entityx::ptr<PositionComponent> position = tmpentity.component<PositionComponent>();
         entityx::ptr<RotationComponent> rotation = tmpentity.component<RotationComponent>();
+        tmpentity.assign<SoundComponent>("/home/ersitzt/impact.wav");
         tmpentity.assign<ModelComponent>(model);
 
 
         if(i == 0)
         {
             tmpentity.assign<InputComponent>();
-            tmpentity.assign<SoundComponent>("/home/ersitzt/test.wav");
+
             tmpentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(rotation->getRotationBT(), position->getPositionBT()), tmpentity, event_manager), 1000, btVector3(0,0,0));
             /** TODO (ersitzt#1#12.10.2013): GhostComponent not working until userPointer in Bullet is working */
 
             tmpentity.assign<PhysicsGhostComponent>(new btSphereShape(btScalar(10000)), position->getPositionBT());
-
-
         }
         else if(i == 1)
         {
@@ -68,10 +64,6 @@ void GameManager::initialize()
         {
             tmpentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(rotation->getRotationBT(), position->getPositionBT()), tmpentity, event_manager), 10, btVector3(0,0,0));
         }
-
-
-
-
 
     }
 }
