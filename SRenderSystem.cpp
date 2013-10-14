@@ -99,6 +99,10 @@ void SRenderSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventMan
         lastFPS = oneSecFPS;
         lastPolyCount = polycount;
     }
+/** TODO (ersitzt#1#): per static method oder per event ????? */
+
+    //SSoundSystem::setListenerPosition(cam->getPosition());
+    events->emit<ListenerPositionChangedEvent>(cam->getPosition());
     //std::cout << "cam : " << cam->getPosition().X << " - " << cam->getPosition().Y << " - " << cam->getPosition().Z <<std::endl;
     CLFRender::getInstance().update();
 }

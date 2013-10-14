@@ -5,6 +5,7 @@
 #include "entityx.h"
 #include "events.h"
 #include "components.h"
+#include "SSoundSystem.h"
 
 using namespace lf;
 using namespace entityx;

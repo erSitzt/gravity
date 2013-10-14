@@ -2,9 +2,10 @@
 #define SSOUNDSYSTEM_H
 
 
+#include <lf/Lightfeather.h>
 #include "entityx.h"
 #include "events.h"
-#include "SSoundComponent.h"
+#include "components.h"
 
 
 using namespace entityx;
@@ -16,6 +17,8 @@ struct SSoundSystem : public System<SSoundSystem>, Receiver<SSoundSystem>
         virtual ~SSoundSystem();
         void configure(entityx::ptr<EventManager> event_manager);
         void update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt);
+        void receive(const ListenerPositionChangedEvent &listenerposchange);
+        static void setListenerPosition(core::vector3df pos);
 
 };
 
