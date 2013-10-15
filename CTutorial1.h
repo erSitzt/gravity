@@ -24,27 +24,10 @@ public:
     // This is the main method of the class which gets called after
     // instantiation from the example1.cpp's main() function.
     void run();
-    // In this method we initialize the 2D display (used in this example
-    // to display an LF logo).
-    void setup2D();
-    // This is the method used to setup our 3D view.
-    void setupScene();
 
 
 private:
-    // Variables to hold our render window and scene
-    // so we can access them from all methods of the class.
-    render::IRenderWindow *rwin;
-    scene::CScene *scn;
-    // The camera we use to display the 3D view.
-    scene::C3DCamera *cam;
-    scene::CLight *light;
-    // Variables to hold the number of FPS and number of polygons
-    // of the last frame so we don't need to update the display of those
-    // too often since changing the caption of a window is pretty slow.
-    u32 lastFPS;
-    u32 lastPolyCount;
-btRigidBody* fallRigidBody;
+
     GameManager manager;
 };
 

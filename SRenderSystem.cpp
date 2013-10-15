@@ -11,21 +11,13 @@ SRenderSystem::SRenderSystem()
                32, // Number of bits to use in the depth buffer.
                render::EWCF_AUTOCLOSE, // This parameter is actually a list of
                render::EAAF_NONE); // Anti-aliasing factor.
-
-    // Set default window caption.
     rwin->setWindowCaption(L"Lightfeather Tutorial 1");
-    // Make the window visible. Since we didn't specify EWCF_VISIBLE,
-    // the window has been invisible until now.
     rwin->setVisible(true);
-    // We register ourselves as a key listener with the render window
-    // (see CTutorial1.h for more details). CTutorial1 is the listener
-    // and the render window is the class that generates events.
     rwin->addKeyListener(this);
     rwin->addMouseListener(this);
 
     // First find the application directory.
-    core::stringc mediaDir =
-        CLFOS::getInstance().getFileSystem()->getApplicationDirectory();
+    core::stringc mediaDir = CLFOS::getInstance().getFileSystem()->getApplicationDirectory();
     // Then add the relative path to the media directory.
     mediaDir += "/../../examples/media";
     // Finally add that directory to the search path of the
