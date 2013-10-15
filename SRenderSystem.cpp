@@ -37,6 +37,7 @@ void SRenderSystem::configure(entityx::ptr<EventManager> event_manager)
 {
     std::cout << "SRenderSystem configure" << std::endl;
     event_manager->subscribe<ComponentAddedEvent<ModelComponent>>(*this);
+    event_manager->subscribe<ComponentAddedEvent<CameraComponent>>(*this);
     event_manager->subscribe<PositionChangedEvent>(*this);
 
     setup2D();
@@ -49,6 +50,7 @@ void SRenderSystem::receive(const PositionChangedEvent &poschange)
 
     entityx::Entity ent = poschange.entity;
     entityx::ptr<ModelComponent> model = ent.component<ModelComponent>();
+    entityx::ptr<CameraComponent> camera = ent.component<CameraComponent>();
     entityx::ptr<PositionComponent> pos = ent.component<PositionComponent>();
     entityx::ptr<RotationComponent> rot = ent.component<RotationComponent>();
     if(model)
@@ -57,6 +59,11 @@ void SRenderSystem::receive(const PositionChangedEvent &poschange)
         model->componentnode->setRotation(rot->getRotationLF());
         core::quaternion qt = rot->getRotationLF();
         //std::cout << "node : " << ent.id() << " pos : " << model->componentnode->getRotationQuaternion().X << " - " << model->componentnode->getRotationQuaternion().Y  << " - " << model->componentnode->getRotationQuaternion().Z  << std::endl;
+    }
+    if(camera)
+    {
+        camera->cam->setPosition(pos->getPositionLF());
+        camera->cam->setRotation(rot->getRotationLF());
     }
     //std::cout << "entity : " << ent.id() << " pos : " << pos->x << " - " << pos->y << " - " << pos->z << std::endl;
 
@@ -72,6 +79,11 @@ void SRenderSystem::receive(const ComponentAddedEvent<ModelComponent> &modelcomp
     node->componentnode->setPosition(pos->getPositionLF());
     node->componentnode->setRotation(rot->getRotationLF());
 
+}
+void SRenderSystem::receive(const ComponentAddedEvent<CameraComponent> &cameracomponent)
+{
+    entityx::ptr<CameraComponent> camera = cameracomponent.component;
+    rwin->getRenderLayer3D()->addCamera(camera->cam);
 }
 void SRenderSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt)
 {
@@ -91,7 +103,7 @@ void SRenderSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventMan
         lastFPS = oneSecFPS;
         lastPolyCount = polycount;
     }
-/** TODO (ersitzt#1#): per static method oder per event ????? */
+    /** TODO (ersitzt#1#): per static method oder per event ????? */
 
     //SSoundSystem::setListenerPosition(cam->getPosition());
     events->emit<ListenerPositionChangedEvent>(cam->getPosition());
@@ -130,13 +142,15 @@ void SRenderSystem::setupScene()
     scn->addLight(light);
     scn->addSceneNode(light);
 
-    cam->drop();
-    light->drop();
+
 
     cam->addChild(light);
     scene::CSceneStateLight *cstLgt = new scene::CSceneStateLight(light, true);
     scn->getRootSceneNode()->addSceneState(cstLgt);
     cstLgt->drop();
+
+    cam->drop();
+    light->drop();
 
     core::stringc blenderDir = "/home/ersitzt/Blender";
     CLFPersistence::getInstance().getFileSystem()->addSearchPath(blenderDir.c_str());

@@ -43,16 +43,14 @@ void EntityMotionState::setWorldTransform(const btTransform &worldTrans)
     if(ghost)
     {
         btTransform ghotrans = ghost->ghost->getWorldTransform();
+#ifdef DEBUG
         std::cout << "Origin   : " << ghotrans.getOrigin().x() << " - " << ghotrans.getOrigin().y() << " - " << ghotrans.getOrigin().z() << std::endl;
         std::cout << "Rotation : " << ghotrans.getRotation().x() << " - " << ghotrans.getRotation().y() << " - " << ghotrans.getRotation().z() << " - " <<  ghotrans.getRotation().w() <<std::endl;
         std::cout << "---------------" << std::endl;
         std::cout << "Origin   : " << worldTrans.getOrigin().x() << " - " << worldTrans.getOrigin().y() << " - " << worldTrans.getOrigin().z() << std::endl;
         std::cout << "Rotation : " << worldTrans.getRotation().x() << " - " << worldTrans.getRotation().y() << " - " << worldTrans.getRotation().z() << " - " <<  worldTrans.getRotation().w() <<std::endl;
-
+#endif // DEBUG
         ghost->ghost->setWorldTransform(worldTrans);
-
-//        ghost->ghost->getWorldTransform().setRotation(worldTrans.getRotation());
-//        ghost->ghost->getWorldTransform().setOrigin(worldTrans.getOrigin());
 
     }
 

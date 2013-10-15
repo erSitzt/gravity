@@ -19,8 +19,8 @@ struct SoundComponent : Component<SoundComponent>
 
     SoundComponent(std::string soundfile) : file(soundfile), playme(false), loop(false), pitch(1.0), attenuation(1.0), volume(100.0)
     {
-            buffer.loadFromFile(file);
-            sound.setBuffer(buffer);
+        buffer.loadFromFile(file);
+        sound.setBuffer(buffer);
     }
     void setSound(std::string soundfile, bool play)
     {

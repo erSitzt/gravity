@@ -9,6 +9,7 @@
 #include "SRotationComponent.h"
 #include "SModelComponent.h"
 #include "SInputComponent.h"
+#include "SCameraComponent.h"
 
 
 

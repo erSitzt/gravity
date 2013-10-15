@@ -36,7 +36,7 @@ void SSoundSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventMana
 }
 void SSoundSystem::receive(const ListenerPositionChangedEvent &listenerposchange)
 {
-     sf::Listener::setPosition(listenerposchange.pos.X, listenerposchange.pos.Y, listenerposchange.pos.Z);
+    sf::Listener::setPosition(listenerposchange.pos.X, listenerposchange.pos.Y, listenerposchange.pos.Z);
 }
 void SSoundSystem::setListenerPosition(core::vector3df pos)
 {

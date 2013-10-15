@@ -14,7 +14,7 @@ CPhysicsSystem::~CPhysicsSystem()
 }
 bool CPhysicsSystem::contactCallbackFunction(btManifoldPoint& cp,const btCollisionObjectWrapper* obj1,int id0,int index0,const btCollisionObjectWrapper* obj2,int id1,int index1)
 {
-    std::cout << "collision" << std::endl;
+    //std::cout << "collision" << std::endl;
     static_assert(sizeof(void*) == sizeof(uint64_t), "need 64 bit pointers");
     /** TODO (ersitzt#1#12.10.2013): Handle collision events, as soon as UserPointer with Bullet works */
     // alec
