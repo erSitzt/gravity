@@ -16,16 +16,9 @@ bool CPhysicsSystem::contactCallbackFunction(btManifoldPoint& cp,const btCollisi
 {
     //std::cout << "collision" << std::endl;
     static_assert(sizeof(void*) == sizeof(uint64_t), "need 64 bit pointers");
-    /** TODO (ersitzt#1#12.10.2013): Handle collision events, as soon as UserPointer with Bullet works */
-    // alec
-    //Entity::Id id(reinterpret_cast<uint64_t>(obj1->getCollisionObject()->getUserPointer()));
     BulletCallbackHelper *helper = reinterpret_cast<BulletCallbackHelper*>(obj1->getCollisionObject()->getUserPointer());
-
-    //EntityManager *tetete = ((EntityManager*)helper->entitymanager);
-    entityx::EntityManager *tetete = (entityx::EntityManager*)(helper->entitymanager);
-
-    entityx::Entity ent = tetete->get(helper->entityid);
-
+    entityx::EntityManager *em = (entityx::EntityManager*)(helper->entitymanager);
+    entityx::Entity ent = em->get(helper->entityid);
     entityx::ptr<SoundComponent> sound = ent.component<SoundComponent>();
     if(sound)
     {
@@ -58,11 +51,10 @@ void CPhysicsSystem::receive(const ComponentAddedEvent<PhysicsGhostComponent> &p
 {
     entityx::Entity ent = physicsghostcomponent.entity;
     entityx::ptr<PhysicsGhostComponent> gho = physicsghostcomponent.component;
-
-    /** TODO (ersitzt#1#12.10.2013): Find a way to add userPointer to an Entity for CollisionCallback */
     entityx::ptr<PhysicsComponent> phys = ent.component<PhysicsComponent>();
     if(phys)
     {
+        // setUserPointer to BulletCallbackHelper which has a ref to the entitymanager an the id of the entity this component belongs to, so we can act on collisions
         gho->ghost->setUserPointer(reinterpret_cast<void*>(new BulletCallbackHelper(ent.id(), emptr)));
     }
 
@@ -73,15 +65,9 @@ void CPhysicsSystem::receive(const ComponentAddedEvent<PhysicsComponent> &physic
 {
     entityx::ptr<PhysicsComponent> phys = physicscomponent.component;
     entityx::Entity entity = physicscomponent.entity;
-    // alec
-    //phys->rigidBody->setUserPointer(reinterpret_cast<void*>(entity.id().id()));
+    // setUserPointer to BulletCallbackHelper which has a ref to the entitymanager an the id of the entity this component belongs to, so we can act on collisions
     phys->rigidBody->setUserPointer(reinterpret_cast<void*>(new BulletCallbackHelper(entity.id(), emptr)));
-
-
-    /** TODO (ersitzt#2#12.10.2013): Find a way to add userPointer to an Entity for CollisionCallback */
-
     dynamicsWorld->addRigidBody(phys->rigidBody);
-
 }
 void CPhysicsSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt)
 {

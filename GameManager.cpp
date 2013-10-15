@@ -28,6 +28,9 @@ void GameManager::initialize()
     std::cout << "GameManager initialize" << std::endl;
 #endif // DEBUG
 
+/** TODO (ersitzt#1#): Move resource loading somewhere else
+create ModelComponent only by ResourceName ??? */
+
     core::stringc blenderDir = "/home/ersitzt/Blender";
     CLFPersistence::getInstance().getFileSystem()->addSearchPath(blenderDir.c_str());
     CLFPersistence::getInstance().load("asteroid6.lfm");
@@ -45,14 +48,10 @@ void GameManager::initialize()
         tmpentity.assign<SoundComponent>("/home/ersitzt/impact.wav");
         tmpentity.assign<ModelComponent>(model);
 
-
         if(i == 0)
         {
             tmpentity.assign<InputComponent>();
-
             tmpentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(rotation->getRotationBT(), position->getPositionBT()), tmpentity, event_manager), 1000, btVector3(0,0,0));
-            /** TODO (ersitzt#1#12.10.2013): GhostComponent not working until userPointer in Bullet is working */
-
             tmpentity.assign<PhysicsGhostComponent>(new btSphereShape(btScalar(10000)), position->getPositionBT());
         }
         else if(i == 1)
