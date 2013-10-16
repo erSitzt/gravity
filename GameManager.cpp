@@ -37,6 +37,8 @@ create ModelComponent only by ResourceName ??? */
     res::CModel *model = CResourceManager::getInstance().getResource<res::CModel>("Mine.mesh");
     model->getMesh(0)->getVertexBuffer()->setColor(0, 0, core::CColorI(255, 0, 0, 255));
     scene::CModelSceneNode *modelNode = new scene::CModelSceneNode(model);
+    model->getMaterial(0)->setRenderFeature(render::ERPF_DIFFUSEMAP);
+
 
     for(int i = 0; i<=50; i++)
     {
@@ -48,16 +50,22 @@ create ModelComponent only by ResourceName ??? */
         tmpentity.assign<SoundComponent>("/home/ersitzt/impact.wav");
         tmpentity.assign<ModelComponent>(model);
 
+
         if(i == 0)
         {
             tmpentity.assign<InputComponent>();
             tmpentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(rotation->getRotationBT(), position->getPositionBT()), tmpentity, event_manager), 1000, btVector3(0,0,0));
             tmpentity.assign<PhysicsGhostComponent>(new btSphereShape(btScalar(10000)), position->getPositionBT());
+            tmpentity.assign<CameraComponent>(core::recti(110,10,210,100));
+            tmpentity.assign<LightComponent>(core::CColorF(0.4f, 0.0f, 0.0f, 1.0f));
+
         }
         else if(i == 1)
         {
             tmpentity.assign<InputComponent>();
             tmpentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(rotation->getRotationBT(), position->getPositionBT()), tmpentity, event_manager), 10, btVector3(0,0,0));
+            tmpentity.assign<CameraComponent>(core::recti(10,10,100,100));
+            tmpentity.assign<LightComponent>(core::CColorF(0.4f, 111.0f, 111.0f, 1.0f));
         }
         else
         {

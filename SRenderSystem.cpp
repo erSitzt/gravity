@@ -10,22 +10,16 @@ SRenderSystem::SRenderSystem()
                32, // Number of color bits to use,
                32, // Number of bits to use in the depth buffer.
                render::EWCF_AUTOCLOSE, // This parameter is actually a list of
-               render::EAAF_NONE); // Anti-aliasing factor.
+               render::EAAF_16); // Anti-aliasing factor.
     rwin->setWindowCaption(L"Lightfeather Tutorial 1");
     rwin->setVisible(true);
     rwin->addKeyListener(this);
     rwin->addMouseListener(this);
 
-    // First find the application directory.
     core::stringc mediaDir = CLFOS::getInstance().getFileSystem()->getApplicationDirectory();
-    // Then add the relative path to the media directory.
     mediaDir += "/../../examples/media";
-    // Finally add that directory to the search path of the
-    // persistence framework's filesystem.
     CLFPersistence::getInstance().getFileSystem()->addSearchPath(mediaDir.c_str());
-
     scn = rwin->getRenderLayer3D()->getScene();
-
     CLFRender::getInstance().setAutoSleep(0);
 }
 
@@ -38,7 +32,9 @@ void SRenderSystem::configure(entityx::ptr<EventManager> event_manager)
     std::cout << "SRenderSystem configure" << std::endl;
     event_manager->subscribe<ComponentAddedEvent<ModelComponent>>(*this);
     event_manager->subscribe<ComponentAddedEvent<CameraComponent>>(*this);
+    event_manager->subscribe<ComponentAddedEvent<LightComponent>>(*this);
     event_manager->subscribe<PositionChangedEvent>(*this);
+
 
     setup2D();
     setupScene();
@@ -49,25 +45,31 @@ void SRenderSystem::receive(const PositionChangedEvent &poschange)
 {
 
     entityx::Entity ent = poschange.entity;
-    entityx::ptr<ModelComponent> model = ent.component<ModelComponent>();
-    entityx::ptr<CameraComponent> camera = ent.component<CameraComponent>();
     entityx::ptr<PositionComponent> pos = ent.component<PositionComponent>();
     entityx::ptr<RotationComponent> rot = ent.component<RotationComponent>();
-    if(model)
+    if(pos && rot)
     {
-        model->componentnode->setPosition(pos->getPositionLF());
-        model->componentnode->setRotation(rot->getRotationLF());
-        core::quaternion qt = rot->getRotationLF();
-        //std::cout << "node : " << ent.id() << " pos : " << model->componentnode->getRotationQuaternion().X << " - " << model->componentnode->getRotationQuaternion().Y  << " - " << model->componentnode->getRotationQuaternion().Z  << std::endl;
+        entityx::ptr<ModelComponent> model = ent.component<ModelComponent>();
+        entityx::ptr<CameraComponent> camera = ent.component<CameraComponent>();
+        entityx::ptr<LightComponent> light = ent.component<LightComponent>();
+        if(model)
+        {
+            model->componentnode->setPosition(pos->getPositionLF());
+            model->componentnode->setRotation(rot->getRotationLF());
+            core::quaternion qt = rot->getRotationLF();
+            //std::cout << "node : " << ent.id() << " pos : " << model->componentnode->getRotationQuaternion().X << " - " << model->componentnode->getRotationQuaternion().Y  << " - " << model->componentnode->getRotationQuaternion().Z  << std::endl;
+        }
+        if(camera)
+        {
+            camera->cam->setPosition(pos->getPositionLF());
+            camera->cam->setRotation(rot->getRotationLF());
+        }
+        if(light)
+        {
+            light->light->setPosition(pos->getPositionLF());
+            light->light->setRotation(rot->getRotationLF());
+        }
     }
-    if(camera)
-    {
-        camera->cam->setPosition(pos->getPositionLF());
-        camera->cam->setRotation(rot->getRotationLF());
-    }
-    //std::cout << "entity : " << ent.id() << " pos : " << pos->x << " - " << pos->y << " - " << pos->z << std::endl;
-
-
 }
 void SRenderSystem::receive(const ComponentAddedEvent<ModelComponent> &modelcomponent)
 {
@@ -85,6 +87,27 @@ void SRenderSystem::receive(const ComponentAddedEvent<CameraComponent> &cameraco
     entityx::ptr<CameraComponent> camera = cameracomponent.component;
     rwin->getRenderLayer3D()->addCamera(camera->cam);
 }
+void SRenderSystem::receive(const ComponentAddedEvent<PlayerComponent> &playercomponent)
+{
+    entityx::ptr<PlayerComponent> player = playercomponent.component;
+    entityx::Entity ent = playercomponent.entity;
+}
+void SRenderSystem::receive(const ComponentAddedEvent<LightComponent> &lightcomponent)
+{
+    entityx::ptr<LightComponent> lightcomp = lightcomponent.component;
+    entityx::Entity ent = lightcomponent.entity;
+    entityx::ptr<PositionComponent> pos = ent.component<PositionComponent>();
+    entityx::ptr<RotationComponent> rot = ent.component<RotationComponent>();
+    lightcomp->light->setPosition(pos->getPositionLF());
+    lightcomp->light->setRotation(rot->getRotationLF());
+    scn->addLight(lightcomp->light);
+    //scn->addSceneNode(lightcomp->light);
+    scene::CSceneStateLight *cstLgt = new scene::CSceneStateLight(lightcomp->light, true);
+    scn->getRootSceneNode()->addSceneState(cstLgt);
+    cstLgt->drop();
+}
+
+
 void SRenderSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt)
 {
     u32 polycount = rwin->getTotalPolygonCount();
@@ -134,23 +157,34 @@ void SRenderSystem::setupScene()
     render::CRenderStateLighting *rstLgt = new render::CRenderStateLighting(true);
     cam->replaceRenderState(rstLgt);
     rstLgt->drop();
+    // For nicer specular highlights.
+    render::CRenderStateSpecularLighting *rstSpl = new render::CRenderStateSpecularLighting(true, true);
+    cam->replaceRenderState(rstSpl);
+    rstSpl->drop();
+    /* Set ambient light. Everything becomes lit, even if no light is directly
+       shining on geometry. Thus, it's no longer displayed completely black.
+       Actually this is the default for the camera. I just wanted to have it
+       here so you can change it and see the effect it has.
+    */
+    render::CRenderStateAmbientLight *rstAmb = new render::CRenderStateAmbientLight(core::CColorI(50, 50, 50, 255));
+    cam->replaceRenderState(rstAmb);
+    rstAmb->drop();
 
 
-    light = new scene::CLight(
-        core::CColorF(0.4f, 0.0f, 0.0f, 1.0f), core::CColorF(1.0f, 1.0f, 1.0f, 1.0f), core::CColorF(0.0f, 0.0f, 0.0f, 1.0f), 200.0f, 0.0f, 0.0f, 1.0f / 500.0f, 0.0f);
-    light->setPosition(cam->getPosition());
-    scn->addLight(light);
-    scn->addSceneNode(light);
 
 
 
-    cam->addChild(light);
-    scene::CSceneStateLight *cstLgt = new scene::CSceneStateLight(light, true);
-    scn->getRootSceneNode()->addSceneState(cstLgt);
-    cstLgt->drop();
+//    light = new scene::CLight(
+//        core::CColorF(0.4f, 0.0f, 0.0f, 1.0f), core::CColorF(1.0f, 1.0f, 1.0f, 1.0f), core::CColorF(0.0f, 0.0f, 0.0f, 1.0f), 200.0f, 0.0f, 0.0f, 1.0f / 500.0f, 0.0f);
+//    light->setPosition(cam->getPosition());
+//    scn->addLight(light);
+//    scn->addSceneNode(light);
+//    scene::CSceneStateLight *cstLgt = new scene::CSceneStateLight(light, true);
+//    scn->getRootSceneNode()->addSceneState(cstLgt);
+//    cstLgt->drop();
 
     cam->drop();
-    light->drop();
+  //  light->drop();
 
     core::stringc blenderDir = "/home/ersitzt/Blender";
     CLFPersistence::getInstance().getFileSystem()->addSearchPath(blenderDir.c_str());

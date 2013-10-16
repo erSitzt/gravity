@@ -19,6 +19,8 @@ public:
     void receive(const PositionChangedEvent &poschange);
     void receive(const ComponentAddedEvent<ModelComponent> &modelcomponent);
     void receive(const ComponentAddedEvent<CameraComponent> &cameracomponent);
+    void receive(const ComponentAddedEvent<PlayerComponent> &playercomponent);
+    void receive(const ComponentAddedEvent<LightComponent> &lightcomponent);
     void update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt);
     void setup2D();
     void setupScene();
