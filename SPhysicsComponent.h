@@ -15,6 +15,8 @@ struct PhysicsComponent : Component<PhysicsComponent>
     btRigidBody *rigidBody;
     btMotionState *motionState;
     btVector3 fallInertia;
+    int collisionFlags;
+
 
     PhysicsComponent(btCollisionShape *shape, btMotionState *motionState, btScalar mass, btVector3 fallInertia) : shape(shape), motionState(motionState), mass(mass), fallInertia(fallInertia)
     {
@@ -24,6 +26,16 @@ struct PhysicsComponent : Component<PhysicsComponent>
         rigidBody->setActivationState(DISABLE_DEACTIVATION);
         rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
 
+    }
+    void setCollisionFlags(int colflags)
+    {
+        collisionFlags = collisionFlags | colflags;
+        rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | collisionFlags);
+
+    }
+    int getCollisionFlags()
+    {
+        return rigidBody->getCollisionFlags();
     }
 
 };

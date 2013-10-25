@@ -11,6 +11,7 @@ SMovementSystem::~SMovementSystem()
 }
 void SMovementSystem::configure(entityx::ptr<EventManager> event_manager)
 {
+    events = event_manager;
 }
 void SMovementSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt)
 {
@@ -65,9 +66,21 @@ void SMovementSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventM
                 {
                     if(input->up == true)
                     {
-                        model->componentnode->moveUp(1.0f);
-                        input->up = false;
+                        pos->y += 1.0f;
                     }
+                    if(input->down == true)
+                    {
+                        pos->y -= 1.0f;
+                    }
+                    if(input->left == true)
+                    {
+                        pos->z += 1.0f;
+                    }
+                    if(input->right == true)
+                    {
+                        pos->z -= 1.0f;
+                    }
+                    this->events->emit<PositionChangedEvent>(entity);
                 }
                 else
                 {

@@ -12,7 +12,8 @@
 #include "SCameraComponent.h"
 #include "SPlayerComponent.h"
 #include "SLightComponent.h"
-
+#include "SShadowComponent.h"
+#include "SParticleComponent.h"
 
 
 

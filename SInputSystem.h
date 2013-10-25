@@ -17,6 +17,7 @@ struct SInputSystem : public System<SInputSystem>, Receiver<SInputSystem> ,input
         void configure(entityx::ptr<EventManager> event_manager);
         void update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt);
         void keyPressed(input::CKeyEvent& event);
+        void keyReleased(input::CKeyEvent& event);
 
         bool left;
         bool right;

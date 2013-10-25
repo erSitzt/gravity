@@ -12,6 +12,8 @@ using namespace entityx;
 struct SMovementSystem : public System<SMovementSystem>, Receiver<SMovementSystem>
 {
 public:
+    entityx::ptr<EventManager> events;
+
     SMovementSystem();
     virtual ~SMovementSystem();
     void configure(entityx::ptr<EventManager> event_manager);

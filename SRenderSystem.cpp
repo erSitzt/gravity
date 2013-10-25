@@ -129,7 +129,7 @@ void SRenderSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventMan
     /** TODO (ersitzt#1#): per static method oder per event ????? */
 
     //SSoundSystem::setListenerPosition(cam->getPosition());
-    events->emit<ListenerPositionChangedEvent>(cam->getPosition());
+    //events->emit<ListenerPositionChangedEvent>(cam->getPosition());
     //std::cout << "cam : " << cam->getPosition().X << " - " << cam->getPosition().Y << " - " << cam->getPosition().Z <<std::endl;
     CLFRender::getInstance().update();
 }
@@ -146,29 +146,29 @@ void SRenderSystem::setup2D()
 void SRenderSystem::setupScene()
 {
 
-    btCollisionShape* fallShape = new btSphereShape(4);
-    cam = new scene::C3DCamera(rwin, core::PI / 3.0f, 1.0f, 1000.0f, true);
-    cam->setBackgroundColor(core::CColorI(0, 0, 0, 0));
-    cam->setPosition(core::vector3df(0.0f, 0.0f, 0.0f));
-    scene::CFPSController *ctrl = new scene::CFPSController(rwin, cam, true);
-    scn->addSceneNodeController(ctrl);
-    ctrl->drop();
-    rwin->getRenderLayer3D()->addCamera(cam);
-    render::CRenderStateLighting *rstLgt = new render::CRenderStateLighting(true);
-    cam->replaceRenderState(rstLgt);
-    rstLgt->drop();
-    // For nicer specular highlights.
-    render::CRenderStateSpecularLighting *rstSpl = new render::CRenderStateSpecularLighting(true, true);
-    cam->replaceRenderState(rstSpl);
-    rstSpl->drop();
-    /* Set ambient light. Everything becomes lit, even if no light is directly
-       shining on geometry. Thus, it's no longer displayed completely black.
-       Actually this is the default for the camera. I just wanted to have it
-       here so you can change it and see the effect it has.
-    */
-    render::CRenderStateAmbientLight *rstAmb = new render::CRenderStateAmbientLight(core::CColorI(50, 50, 50, 255));
-    cam->replaceRenderState(rstAmb);
-    rstAmb->drop();
+//    btCollisionShape* fallShape = new btSphereShape(4);
+//    cam = new scene::C3DCamera(rwin, core::PI / 3.0f, 1.0f, 1000.0f, true);
+//    cam->setBackgroundColor(core::CColorI(0, 0, 0, 0));
+//    cam->setPosition(core::vector3df(0.0f, 0.0f, 0.0f));
+//    scene::CFPSController *ctrl = new scene::CFPSController(rwin, cam, true);
+//    scn->addSceneNodeController(ctrl);
+//    ctrl->drop();
+//    rwin->getRenderLayer3D()->addCamera(cam);
+//    render::CRenderStateLighting *rstLgt = new render::CRenderStateLighting(true);
+//    cam->replaceRenderState(rstLgt);
+//    rstLgt->drop();
+//    // For nicer specular highlights.
+//    render::CRenderStateSpecularLighting *rstSpl = new render::CRenderStateSpecularLighting(true, true);
+//    cam->replaceRenderState(rstSpl);
+//    rstSpl->drop();
+//    /* Set ambient light. Everything becomes lit, even if no light is directly
+//       shining on geometry. Thus, it's no longer displayed completely black.
+//       Actually this is the default for the camera. I just wanted to have it
+//       here so you can change it and see the effect it has.
+//    */
+//    render::CRenderStateAmbientLight *rstAmb = new render::CRenderStateAmbientLight(core::CColorI(50, 50, 50, 255));
+//    cam->replaceRenderState(rstAmb);
+//    rstAmb->drop();
 
 
 
@@ -183,7 +183,7 @@ void SRenderSystem::setupScene()
 //    scn->getRootSceneNode()->addSceneState(cstLgt);
 //    cstLgt->drop();
 
-    cam->drop();
+ //   cam->drop();
   //  light->drop();
 
     core::stringc blenderDir = "/home/ersitzt/Blender";
