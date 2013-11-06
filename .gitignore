@@ -1,4 +1,6 @@
 /Debug/*.o
 /Release/*.o
+/Standard/*.o
+/bin/*
 Makefile
 *.save
