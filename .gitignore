@@ -1,2 +1,4 @@
+/Debug/*.o
+/Release/*.o
 Makefile
 *.save

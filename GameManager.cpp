@@ -34,7 +34,7 @@ create ModelComponent only by ResourceName ??? */
     core::stringc blenderDir = "/home/ersitzt/Blender";
     CLFPersistence::getInstance().getFileSystem()->addSearchPath(blenderDir.c_str());
     CLFPersistence::getInstance().load("asteroid3.lfm");
-    res::CModel *model = CResourceManager::getInstance().getResource<res::CModel>("Mine.mesh");
+    res::CModel *model = CResourceManager::getInstance().getResource<res::CModel>("asteroid3");
     model->getMesh(0)->getVertexBuffer()->setColor(0, 0, core::CColorI(255, 0, 0, 255));
     scene::CModelSceneNode *modelNode = new scene::CModelSceneNode(model);
     model->getMaterial(0)->setRenderFeature(render::ERPF_DIFFUSEMAP);

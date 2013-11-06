@@ -17,8 +17,9 @@ SRenderSystem::SRenderSystem()
     rwin->addMouseListener(this);
 
     core::stringc mediaDir = CLFOS::getInstance().getFileSystem()->getApplicationDirectory();
-    mediaDir += "/../../examples/media";
     CLFPersistence::getInstance().getFileSystem()->addSearchPath(mediaDir.c_str());
+    core::stringc lfmediaDir = "/home/ersitzt/lf/examples/media";
+    CLFPersistence::getInstance().getFileSystem()->addSearchPath(lfmediaDir.c_str());
     scn = rwin->getRenderLayer3D()->getScene();
     CLFRender::getInstance().setAutoSleep(0);
 }

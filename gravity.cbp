@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="gravity" />
+		<Option pch_mode="0" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Standard">
+				<Option output="bin/Standard/gravity" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="/home/ersitzt/programming/gravity" />
+				<Option object_output="Standard" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-g" />
+					<Add option="-fexceptions" />
+					<Add option="-fPIC" />
+					<Add option="-DPIC" />
+					<Add option="-DHAVE_CG" />
+					<Add option="-DHAVE_NGPLANT" />
+					<Add option="-DEMBED_RESOURCES" />
+					<Add option="-D_LF_COMPILE_WITH_BMP_" />
+					<Add option="-D_LF_COMPILE_WITH_DDS_" />
+					<Add option="-D_LF_COMPILE_WITH_HDR_" />
+					<Add option="-D_LF_COMPILE_WITH_JPG_" />
+					<Add option="-D_LF_COMPILE_WITH_PCX_" />
+					<Add option="-D_LF_COMPILE_WITH_PNG_" />
+					<Add option="-D_LF_COMPILE_WITH_PSD_" />
+					<Add option="-D_LF_COMPILE_WITH_TGA_" />
+					<Add option="-D_LF_COMPILE_WITH_WAL_" />
+					<Add option="-D_LF_COMPILE_WITH_PROCEDURAL_" />
+					<Add option="-D_LF_COMPILE_WITH_CLOTH_" />
+					<Add option="-D_LF_LOAD_SP_RENDERPASS" />
+					<Add option="-D_LF_LOAD_OPPL_RENDERPASS" />
+					<Add option="-D_LF_LOAD_DEFERRED_RENDERPASS" />
+					<Add option="-DPNG_NO_ASSEMBLER_CODE" />
+					<Add option="-DHAVE_PROFILER" />
+					<Add directory="/home/ersitzt/lf/include" />
+					<Add directory="/home/ersitzt/lf/ext" />
+					<Add directory="/home/ersitzt/lf/ext/freetype2/include" />
+					<Add directory="/home/ersitzt/lf/ext/freetype2/include/freetype" />
+					<Add directory="/home/ersitzt/lf/ext/jpeglib" />
+					<Add directory="/home/ersitzt/lf/ext/libpng" />
+					<Add directory="/home/ersitzt/lf/ext/zlib" />
+					<Add directory="/home/ersitzt/lf/ext/ngplant" />
+					<Add directory="/home/ersitzt/programming/gravity" />
+				</Compiler>
+				<Linker>
+					<Add option="-g" />
+					<Add option="-O2" />
+					<Add library="Lightfeather" />
+					<Add library="GL" />
+					<Add library="GLU" />
+					<Add library="Xxf86vm" />
+					<Add library="Xext" />
+					<Add library="X11" />
+					<Add library="Cg" />
+					<Add library="CgGL" />
+					<Add library="pthread" />
+					<Add directory="bin/Standard" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/gravity" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="/home/ersitzt/programming/gravity" />
+				<Option object_output="Release" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-fomit-frame-pointer" />
+					<Add option="-O3" />
+					<Add option="-fexceptions" />
+					<Add option="-fPIC" />
+					<Add option="-DPIC" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DHAVE_CG" />
+					<Add option="-DHAVE_NGPLANT" />
+					<Add option="-DEMBED_RESOURCES" />
+					<Add option="-D_LF_COMPILE_WITH_BMP_" />
+					<Add option="-D_LF_COMPILE_WITH_DDS_" />
+					<Add option="-D_LF_COMPILE_WITH_HDR_" />
+					<Add option="-D_LF_COMPILE_WITH_JPG_" />
+					<Add option="-D_LF_COMPILE_WITH_PCX_" />
+					<Add option="-D_LF_COMPILE_WITH_PNG_" />
+					<Add option="-D_LF_COMPILE_WITH_PSD_" />
+					<Add option="-D_LF_COMPILE_WITH_TGA_" />
+					<Add option="-D_LF_COMPILE_WITH_WAL_" />
+					<Add option="-D_LF_COMPILE_WITH_PROCEDURAL_" />
+					<Add option="-D_LF_COMPILE_WITH_CLOTH_" />
+					<Add option="-D_LF_LOAD_SP_RENDERPASS" />
+					<Add option="-D_LF_LOAD_OPPL_RENDERPASS" />
+					<Add option="-D_LF_LOAD_DEFERRED_RENDERPASS" />
+					<Add option="-DPNG_NO_ASSEMBLER_CODE" />
+					<Add option="-DHAVE_PROFILER" />
+					<Add directory="/home/ersitzt/lf/include" />
+					<Add directory="/home/ersitzt/lf/ext" />
+					<Add directory="/home/ersitzt/lf/ext/freetype2/include" />
+					<Add directory="/home/ersitzt/lf/ext/freetype2/include/freetype" />
+					<Add directory="/home/ersitzt/lf/ext/jpeglib" />
+					<Add directory="/home/ersitzt/lf/ext/libpng" />
+					<Add directory="/home/ersitzt/lf/ext/zlib" />
+					<Add directory="/home/ersitzt/lf/ext/ngplant" />
+					<Add directory="/home/ersitzt/programming/gravity" />
+				</Compiler>
+				<Linker>
+					<Add option="-O3" />
+					<Add library="Lightfeather" />
+					<Add library="GL" />
+					<Add library="GLU" />
+					<Add library="Xxf86vm" />
+					<Add library="Xext" />
+					<Add library="X11" />
+					<Add library="Cg" />
+					<Add library="CgGL" />
+					<Add library="pthread" />
+					<Add directory="bin/Release" />
+				</Linker>
+			</Target>
+			<Target title="Debug">
+				<Option output="bin/Debug/gravity" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="/home/ersitzt/programming/gravity" />
+				<Option object_output="Debug" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-O0" />
+					<Add option="-fexceptions" />
+					<Add option="-fPIC" />
+					<Add option="-DPIC" />
+					<Add option="-DDEBUG" />
+					<Add option="-DHAVE_CG" />
+					<Add option="-DHAVE_NGPLANT" />
+					<Add option="-DEMBED_RESOURCES" />
+					<Add option="-D_LF_COMPILE_WITH_BMP_" />
+					<Add option="-D_LF_COMPILE_WITH_DDS_" />
+					<Add option="-D_LF_COMPILE_WITH_HDR_" />
+					<Add option="-D_LF_COMPILE_WITH_JPG_" />
+					<Add option="-D_LF_COMPILE_WITH_PCX_" />
+					<Add option="-D_LF_COMPILE_WITH_PNG_" />
+					<Add option="-D_LF_COMPILE_WITH_PSD_" />
+					<Add option="-D_LF_COMPILE_WITH_TGA_" />
+					<Add option="-D_LF_COMPILE_WITH_WAL_" />
+					<Add option="-D_LF_COMPILE_WITH_PROCEDURAL_" />
+					<Add option="-D_LF_COMPILE_WITH_CLOTH_" />
+					<Add option="-D_LF_LOAD_SP_RENDERPASS" />
+					<Add option="-D_LF_LOAD_OPPL_RENDERPASS" />
+					<Add option="-D_LF_LOAD_DEFERRED_RENDERPASS" />
+					<Add option="-DPNG_NO_ASSEMBLER_CODE" />
+					<Add option="-DHAVE_PROFILER" />
+					<Add directory="/home/ersitzt/lf/include" />
+					<Add directory="/home/ersitzt/lf/ext" />
+					<Add directory="/home/ersitzt/lf/ext/freetype2/include" />
+					<Add directory="/home/ersitzt/lf/ext/freetype2/include/freetype" />
+					<Add directory="/home/ersitzt/lf/ext/jpeglib" />
+					<Add directory="/home/ersitzt/lf/ext/libpng" />
+					<Add directory="/home/ersitzt/lf/ext/zlib" />
+					<Add directory="/home/ersitzt/lf/ext/ngplant" />
+					<Add directory="/home/ersitzt/programming/gravity" />
+				</Compiler>
+				<Linker>
+					<Add option="-g" />
+					<Add option="-O0" />
+					<Add library="Lightfeather" />
+					<Add library="GL" />
+					<Add library="GLU" />
+					<Add library="Xxf86vm" />
+					<Add library="Xext" />
+					<Add library="X11" />
+					<Add library="Cg" />
+					<Add library="CgGL" />
+					<Add library="pthread" />
+					<Add directory="bin/Debug" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-DSFML_DYNAMIC" />
+			<Add directory="/usr/local/include" />
+			<Add directory="$(#boost.include)" />
+			<Add directory="/usr/local/include/bullet" />
+			<Add directory="/usr/local/include/entityx" />
+			<Add directory="/home/ersitzt/libraries/SFML-2.1/include" />
+		</Compiler>
+		<Linker>
+			<Add library="libboost_system" />
+			<Add library="libboost_regex" />
+			<Add library="BulletDynamics" />
+			<Add library="BulletCollision" />
+			<Add library="LinearMath" />
+			<Add library="entityx" />
+			<Add library="sfml-audio" />
+			<Add library="sfml-system" />
+			<Add directory="$(#boost.lib)" />
+			<Add directory="/usr/local/lib" />
+			<Add directory="/home/ersitzt/libraries/SFML-2.1/lib" />
+		</Linker>
+		<Unit filename="/home/ersitzt/programming/gravity/CDebuggingSystem.cpp" />
+		<Unit filename="/home/ersitzt/programming/gravity/CDebuggingSystem.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/CPhysicsSystem.cpp" />
+		<Unit filename="/home/ersitzt/programming/gravity/CPhysicsSystem.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/CTutorial1.cpp" />
+		<Unit filename="/home/ersitzt/programming/gravity/CTutorial1.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/EntityMotionState.cpp" />
+		<Unit filename="/home/ersitzt/programming/gravity/EntityMotionState.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/GameManager.cpp" />
+		<Unit filename="/home/ersitzt/programming/gravity/GameManager.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SCameraComponent.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SInputComponent.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SInputSystem.cpp" />
+		<Unit filename="/home/ersitzt/programming/gravity/SInputSystem.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SLightComponent.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SListenerPositionChangedEvent.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SModelComponent.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SMovementSystem.cpp" />
+		<Unit filename="/home/ersitzt/programming/gravity/SMovementSystem.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SParticleComponent.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SPhysicsComponent.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SPhysicsGhostComponent.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SPlayerComponent.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SPositionChangedEvent.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SPositionComponent.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SRenderSystem.cpp" />
+		<Unit filename="/home/ersitzt/programming/gravity/SRenderSystem.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SRotationComponent.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SShadowComponent.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SSoundComponent.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/SSoundSystem.cpp" />
+		<Unit filename="/home/ersitzt/programming/gravity/SSoundSystem.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/components.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/events.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/systems.h" />
+		<Unit filename="/home/ersitzt/programming/gravity/tutorial1.cpp" />
+		<Extensions>
+			<code_completion>
+				<search_path add="/usr/local/include/boost" />
+				<search_path add="/usr/local/include/bullet" />
+			</code_completion>
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
