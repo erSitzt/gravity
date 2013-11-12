@@ -5,10 +5,10 @@ using namespace entityx;
 
 SInputSystem::SInputSystem()
 {
-    render::IRenderWindow *rwin = CLFRender::getInstance().getRenderWindow(0);
+    rwin = CLFRender::getInstance().getRenderWindow(0);
 
     rwin->addKeyListener(this);
-    rwin->addMouseListener(this);
+    rwin->addMouseMovementListener(this);
     //ctor
 }
 
@@ -26,12 +26,18 @@ void SInputSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventMana
         inputcomp->left = left;
         inputcomp->right = right;
     }
+    for (auto entity : es->entities_with_components<PlayerComponent>())
+    {
+        entityx::ptr<InputComponent> inputcomp = entity.component<InputComponent>();
+        inputcomp->yaw = yaw;
+        inputcomp->pitch = pitch;
+    }
 
 }
 void SInputSystem::configure(entityx::ptr<EventManager> event_manager)
 {
     std::cout << "SInputSystem configure" << std::endl;
-
+    mouseControl = rwin->getCursorControl();
 
 }
 
@@ -79,4 +85,18 @@ void SInputSystem::keyReleased(input::CKeyEvent& event)
     default:
         break;
     }
+}
+void SInputSystem::mouseMoved(input::CMouseEvent& event)
+{
+    core::vector2d<f32> cursorpos = mouseControl->getRelativePosition();
+
+    if( fabs(cursorpos.X - 0.5f) >= 0.001 || fabs(cursorpos.Y - 0.5f) >= 0.001 )
+    {
+
+        yaw = event.getPosX() - event.getOldX();
+        pitch = event.getPosY() - event.getOldY();
+        mouseControl->setPosition( 0.5f, 0.5f );
+    }
+
+
 }

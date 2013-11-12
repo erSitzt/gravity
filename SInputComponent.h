@@ -11,6 +11,10 @@ struct InputComponent : Component<InputComponent>
     bool right;
     bool up;
     bool down;
+    s16 yaw;
+    s16 pitch;
+    s16 roll;
+
     input::EKEY_CODE key;
 
     InputComponent()

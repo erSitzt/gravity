@@ -29,36 +29,62 @@ void SMovementSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventM
                 entityx::ptr<PhysicsGhostComponent> ghost = entity.component<PhysicsGhostComponent>();
                 if(model && physics)
                 {
+                        btTransform transform = physics->rigidBody->getWorldTransform();
+                        btQuaternion rotation = transform.getRotation();
+
+                        // create orientation vectors
+                        btVector3 up(0, 1, 0);
+                        btVector3 lookat = quatRotate(rotation, btVector3(0, 0, 1));
+                        btVector3 forward = btVector3(lookat.getX(), 0, lookat.getZ()).normalize();
+                        btVector3 side = btCross(up, forward);
+
                     if(input->up == true)
                     {
-                        btVector3 vec = btVector3(0,1,0);
-                        vec = vec.normalized();
-                        physics->rigidBody->applyCentralImpulse(vec * 100);
+                        //btVector3 vec = btVector3(0,1,0);
+                        //vec = vec.normalized();
+                        physics->rigidBody->applyCentralImpulse(forward * 100);
                         input->up = false;
 
                     }
                     if(input->down == true)
                     {
-                        btVector3 vec = btVector3(0,-1,0);
-                        vec = vec.normalized();
-                        physics->rigidBody->applyCentralImpulse(vec * 100);
+                        //btVector3 vec = btVector3(0,-1,0);
+                        //vec = vec.normalized();
+                        physics->rigidBody->applyCentralImpulse(forward * -100);
                         input->down = false;
 
                     }
                     if(input->left == true)
                     {
-                        btVector3 vec = btVector3(1,0,0);
-                        vec = vec.normalized();
-                        physics->rigidBody->applyCentralImpulse(vec * 100);
+                        //btVector3 vec = btVector3(1,0,0);
+                        //vec = vec.normalized();
+                        physics->rigidBody->applyCentralImpulse(side * -100);
                         input->left = false;
 
                     }
                     if(input->right == true)
                     {
-                        btVector3 vec = btVector3(-1,0,0);
-                        vec = vec.normalized();
-                        physics->rigidBody->applyCentralImpulse(vec * 100);
+                        //btVector3 vec = btVector3(-1,0,0);
+                        //vec = vec.normalized();
+                        physics->rigidBody->applyCentralImpulse(side * 100);
                         input->right = false;
+
+                    }
+                    if(input->yaw != 0 || input->pitch != 0)
+                    {
+
+                        btVector3 Amount(input->yaw * 0.001, input->pitch * 0.001, 0);
+                        input->yaw = 0;
+                        input->pitch = 0;
+
+                        // rotate camera with quaternions created from axis and angle
+                        rotation = btQuaternion(up,      Amount.getY()) * rotation;
+                        rotation = btQuaternion(side,    Amount.getX()) * rotation;
+                        //rotation = btQuaternion(forward, Amount.getZ()) * rotation;
+
+                        // set new rotation
+                        transform.setRotation(rotation);
+                        //physics->rigidBody->setWorldTransform(transform);
 
                     }
                 }
@@ -80,6 +106,7 @@ void SMovementSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventM
                     {
                         pos->z -= 1.0f;
                     }
+
                     this->events->emit<PositionChangedEvent>(entity);
                 }
                 else

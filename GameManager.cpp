@@ -42,10 +42,14 @@ create ModelComponent only by ResourceName ??? */
     entityx::Entity playerentity = entity_manager->create();
     playerentity.assign<PositionComponent>();
     playerentity.assign<RotationComponent>();
+    entityx::ptr<PositionComponent> playerpos = playerentity.component<PositionComponent>();
+    entityx::ptr<RotationComponent> playerrot = playerentity.component<RotationComponent>();
     playerentity.assign<SoundComponent>("/home/ersitzt/impact.wav");
     playerentity.assign<ModelComponent>(model);
     playerentity.assign<InputComponent>();
-    playerentity.assign<CameraComponent>(core::recti(210,100,910,700));
+    playerentity.assign<PlayerComponent>();
+    playerentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(playerrot->getRotationBT(), playerpos->getPositionBT()), playerentity, event_manager), 1000, btVector3(0,0,0));
+    playerentity.assign<CameraComponent>(CLFRender::getInstance().getRenderWindow(0));
 
 
     for(int i = 0; i<=50; i++)
