@@ -33,8 +33,8 @@ create ModelComponent only by ResourceName ??? */
 
     core::stringc blenderDir = "/home/ersitzt/Blender";
     CLFPersistence::getInstance().getFileSystem()->addSearchPath(blenderDir.c_str());
-    CLFPersistence::getInstance().load("asteroid3.lfm");
-    res::CModel *model = CResourceManager::getInstance().getResource<res::CModel>("asteroid3");
+    CLFPersistence::getInstance().load("frontandback.lfm");
+    res::CModel *model = CResourceManager::getInstance().getResource<res::CModel>("frontandback");
     model->getMesh(0)->getVertexBuffer()->setColor(0, 0, core::CColorI(255, 0, 0, 255));
     scene::CModelSceneNode *modelNode = new scene::CModelSceneNode(model);
     model->getMaterial(0)->setRenderFeature(render::ERPF_DIFFUSEMAP);
@@ -47,12 +47,12 @@ create ModelComponent only by ResourceName ??? */
     playerentity.assign<SoundComponent>("/home/ersitzt/impact.wav");
     playerentity.assign<ModelComponent>(model);
     playerentity.assign<InputComponent>();
-    playerentity.assign<PlayerComponent>();
+    //playerentity.assign<PlayerComponent>();
     playerentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(playerrot->getRotationBT(), playerpos->getPositionBT()), playerentity, event_manager), 1000, btVector3(0,0,0));
     playerentity.assign<CameraComponent>(CLFRender::getInstance().getRenderWindow(0));
 
 
-    for(int i = 0; i<=50; i++)
+    for(int i = 0; i<=1; i++)
     {
         entityx::Entity tmpentity = entity_manager->create();
         tmpentity.assign<PositionComponent>(CLFOS::getInstance().getRandomizer()->randf() * i + 10,CLFOS::getInstance().getRandomizer()->randf() *i +10,CLFOS::getInstance().getRandomizer()->randf()*i +10);
@@ -68,7 +68,7 @@ create ModelComponent only by ResourceName ??? */
             //tmpentity.assign<InputComponent>();
             tmpentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(rotation->getRotationBT(), position->getPositionBT()), tmpentity, event_manager), 1000, btVector3(0,0,0));
             //tmpentity.assign<PhysicsGhostComponent>(new btSphereShape(btScalar(10000)), position->getPositionBT());
-            tmpentity.assign<CameraComponent>(core::recti(210,10,410,200));
+            tmpentity.assign<CameraComponent>(core::recti(10,10,410,200));
             tmpentity.assign<LightComponent>(core::CColorF(0.4f, 0.0f, 0.0f, 1.0f));
 
         }
@@ -76,7 +76,7 @@ create ModelComponent only by ResourceName ??? */
         {
             //tmpentity.assign<InputComponent>();
             tmpentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(rotation->getRotationBT(), position->getPositionBT()), tmpentity, event_manager), 10, btVector3(0,0,0));
-            tmpentity.assign<CameraComponent>(core::recti(10,10,200,200));
+
             tmpentity.assign<LightComponent>(core::CColorF(0.4f, 111.0f, 111.0f, 1.0f));
 
         }

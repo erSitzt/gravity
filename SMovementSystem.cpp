@@ -1,5 +1,7 @@
 #include "SMovementSystem.h"
 
+using namespace lf;
+
 SMovementSystem::SMovementSystem()
 {
     //ctor
@@ -29,62 +31,86 @@ void SMovementSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventM
                 entityx::ptr<PhysicsGhostComponent> ghost = entity.component<PhysicsGhostComponent>();
                 if(model && physics)
                 {
-                        btTransform transform = physics->rigidBody->getWorldTransform();
-                        btQuaternion rotation = transform.getRotation();
+                    btTransform transform;
+                    physics->rigidBody->getMotionState()->getWorldTransform(transform);
+                    btQuaternion rotation = transform.getRotation();
+                    core::quaternion lfrot = gravutil::getLFQuatFromBT(rotation);
 
-                        // create orientation vectors
-                        btVector3 up(0, 1, 0);
-                        btVector3 lookat = quatRotate(rotation, btVector3(0, 0, 1));
-                        btVector3 forward = btVector3(lookat.getX(), 0, lookat.getZ()).normalize();
-                        btVector3 side = btCross(up, forward);
+                    // create orientation vectors
+//                    btVector3 up(0, 1, 0);
+//                    btVector3 lookat = quatRotate(rotation, btVector3(0, 0, 1));
+//                    btVector3 forward = btVector3(lookat.getX(), 0, lookat.getZ()).normalize();
+//                    btVector3 side = btCross(up, forward);
 
-                    if(input->up == true)
+                    core::vector3df lfup = lfrot * core::vector3df(0, 1, 0);
+                    core::vector3df lfforward = lfrot * core::vector3df(0, 0, 1);
+                    core::vector3df lfside = lfrot * core::vector3df(1, 0, 0);
+                    btVector3 up = gravutil::getBTVecFromLF(lfup);
+                    btVector3 forward = gravutil::getBTVecFromLF(lfforward);
+                    btVector3 side = gravutil::getBTVecFromLF(lfside);
+
+
+
+                    if(!input->shift)
                     {
-                        //btVector3 vec = btVector3(0,1,0);
-                        //vec = vec.normalized();
-                        physics->rigidBody->applyCentralImpulse(forward * 100);
-                        input->up = false;
-
+                        if(input->up == true)
+                        {
+                            physics->rigidBody->applyCentralImpulse(forward * 100);
+                            input->up = false;
+                        }
+                        if(input->down == true)
+                        {
+                            physics->rigidBody->applyCentralImpulse(forward * -100);
+                            input->down = false;
+                        }
                     }
-                    if(input->down == true)
+                    else
                     {
-                        //btVector3 vec = btVector3(0,-1,0);
-                        //vec = vec.normalized();
-                        physics->rigidBody->applyCentralImpulse(forward * -100);
-                        input->down = false;
-
+                        if(input->up == true)
+                        {
+                            physics->rigidBody->applyCentralImpulse(up * 100);
+                            input->up = false;
+                        }
+                        if(input->down == true)
+                        {
+                            physics->rigidBody->applyCentralImpulse(up * -100);
+                            input->down = false;
+                        }
                     }
                     if(input->left == true)
                     {
-                        //btVector3 vec = btVector3(1,0,0);
-                        //vec = vec.normalized();
                         physics->rigidBody->applyCentralImpulse(side * -100);
                         input->left = false;
-
                     }
                     if(input->right == true)
                     {
-                        //btVector3 vec = btVector3(-1,0,0);
-                        //vec = vec.normalized();
                         physics->rigidBody->applyCentralImpulse(side * 100);
                         input->right = false;
-
                     }
                     if(input->yaw != 0 || input->pitch != 0)
                     {
-
-                        btVector3 Amount(input->yaw * 0.001, input->pitch * 0.001, 0);
+                        std::cout << "Yaw : " << input->yaw << " Pitch : " << input->pitch << " DT : " << dt << std::endl;
+                        btVector3 Amount(input->yaw * dt, input->pitch * dt, 0);
                         input->yaw = 0;
                         input->pitch = 0;
 
                         // rotate camera with quaternions created from axis and angle
-                        rotation = btQuaternion(up,      Amount.getY()) * rotation;
-                        rotation = btQuaternion(side,    Amount.getX()) * rotation;
-                        //rotation = btQuaternion(forward, Amount.getZ()) * rotation;
+                        //rotation.setRotation(up, 10);
+                        rotation = btQuaternion(up,      Amount.getX()) * rotation;
+                        rotation = btQuaternion(side,    Amount.getY()) * rotation;
+//                        rotation = btQuaternion(forward, Amount.getZ()) * rotation;
 
                         // set new rotation
+                        std::cout << "Yaw : " << input->yaw << " Pitch : " << input->pitch << std::endl;
+                        std::cout << "Rot. Angle : " << rotation.getAngle() << std::endl;
+                        std::cout << "Rot.  X : " << rotation.getX() << " Rot. X : " << rotation.getY() << " Rot. X : " << rotation.getZ() << std::endl;
+                        std::cout << "UP.   X : " << up.getX() << " UP.   X : " << up.getY() << " UP.   X : " << up.getZ() << std::endl;
+                        std::cout << "FWD.  X : " << forward.getX() << " FWD.  X : " << forward.getY() << " FWD.  X : " << forward.getZ() << std::endl;
+                        std::cout << "SIDE. X : " << side.getX() << " SIDE. X : " << side.getY() << " SIDE. X : " << side.getZ() << std::endl;
                         transform.setRotation(rotation);
-                        //physics->rigidBody->setWorldTransform(transform);
+
+                        physics->rigidBody->setWorldTransform(transform);
+
 
                     }
                 }
@@ -126,6 +152,38 @@ void SMovementSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventM
     }
 }
 
+btVector3 SMovementSystem::GetForwardVector(btQuaternion q) const
+{
+    btScalar x = q.x();
+    btScalar y = q.y();
+    btScalar z = q.z();
+    btScalar w = q.w();
+    return btVector3( 2 * (x * z + w * y),
+                    2 * (y * x - w * x),
+                    1 - 2 * (x * x + y * y));
+}
+
+btVector3 SMovementSystem::GetUpVector(btQuaternion q) const
+{
+    btScalar x = q.x();
+    btScalar y = q.y();
+    btScalar z = q.z();
+    btScalar w = q.w();
+    return btVector3( 2 * (x * y - w * z),
+                    1 - 2 * (x * x + z * z),
+                    2 * (y * z + w * x));
+}
+
+btVector3 SMovementSystem::GetRightVector(btQuaternion q) const
+{
+    btScalar x = q.x();
+    btScalar y = q.y();
+    btScalar z = q.z();
+    btScalar w = q.w();
+    return btVector3( 1 - 2 * (y * y + z * z),
+                    2 * (x * y + w * z),
+                    2 * (x * z - w * y));
+}
 
 /*
     for (auto entity : es->entities_with_components<InputComponent, PhysicsGhostComponent>())

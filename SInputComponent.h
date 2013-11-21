@@ -11,6 +11,7 @@ struct InputComponent : Component<InputComponent>
     bool right;
     bool up;
     bool down;
+    bool shift;
     s16 yaw;
     s16 pitch;
     s16 roll;

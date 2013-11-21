@@ -11,21 +11,22 @@ using namespace entityx;
 
 struct SInputSystem : public System<SInputSystem>, Receiver<SInputSystem> ,input::IKeyListener, input::IMouseMovementListener
 {
-    public:
-        SInputSystem();
-        virtual ~SInputSystem();
-        void configure(entityx::ptr<EventManager> event_manager);
-        void update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt);
-        void keyPressed(input::CKeyEvent& event);
-        void keyReleased(input::CKeyEvent& event);
-        void mouseMoved(input::CMouseEvent& event);
+public:
+    SInputSystem();
+    virtual ~SInputSystem();
+    void configure(entityx::ptr<EventManager> event_manager);
+    void update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt);
+    void keyPressed(input::CKeyEvent& event);
+    void keyReleased(input::CKeyEvent& event);
+    void mouseMoved(input::CMouseEvent& event);
 
 
-        bool left;
-        bool right;
-        bool up;
-        bool down;
-            s16 yaw;
+    bool left;
+    bool right;
+    bool up;
+    bool down;
+    bool shift;
+    s16 yaw;
     s16 pitch;
     s16 roll;
 

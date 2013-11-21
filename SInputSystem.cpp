@@ -25,6 +25,12 @@ void SInputSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventMana
         inputcomp->down = down;
         inputcomp->left = left;
         inputcomp->right = right;
+        inputcomp->shift = shift;
+/** TODO (ersitzt#1#): test
+ */
+
+        inputcomp->yaw = yaw;
+        inputcomp->pitch = pitch;
     }
     for (auto entity : es->entities_with_components<PlayerComponent>())
     {
@@ -32,12 +38,15 @@ void SInputSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventMana
         inputcomp->yaw = yaw;
         inputcomp->pitch = pitch;
     }
+    yaw = 0;
+    pitch = 0;
 
 }
 void SInputSystem::configure(entityx::ptr<EventManager> event_manager)
 {
     std::cout << "SInputSystem configure" << std::endl;
     mouseControl = rwin->getCursorControl();
+    mouseControl->setPosition( 0.5f, 0.5f );
 
 }
 
@@ -57,6 +66,10 @@ void SInputSystem::keyPressed(input::CKeyEvent& event)
         break;
     case input::KEY_RIGHT:
         right = true;
+        break;
+    case input::KEY_LSHIFT:
+        shift = true;
+        std::cout << "Shift ON" << std::endl;
         break;
     default:
         break;
@@ -81,6 +94,10 @@ void SInputSystem::keyReleased(input::CKeyEvent& event)
     case input::KEY_RIGHT:
         std::cout << "Taste losgelassen!" << std::endl;
         right = false;
+        break;
+    case input::KEY_LSHIFT:
+        shift = false;
+        std::cout << "Shift OFF" << std::endl;
         break;
     default:
         break;

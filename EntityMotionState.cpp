@@ -55,6 +55,7 @@ void EntityMotionState::setWorldTransform(const btTransform &worldTrans)
     }
 
     this->events->emit<PositionChangedEvent>(this->entity);
+
     mPos1 = worldTrans;
 
 
