@@ -14,6 +14,10 @@ struct SMovementSystem : public System<SMovementSystem>, Receiver<SMovementSyste
 {
 public:
     entityx::ptr<EventManager> events;
+    f32 rotX[3];
+    f32 rotY[3];
+    f32 rotXAvg;
+    f32 rotYAvg;
 
     SMovementSystem();
     virtual ~SMovementSystem();

@@ -9,7 +9,7 @@
 using namespace lf;
 using namespace entityx;
 
-struct SInputSystem : public System<SInputSystem>, Receiver<SInputSystem> ,input::IKeyListener, input::IMouseMovementListener
+struct SInputSystem : public System<SInputSystem>, Receiver<SInputSystem> ,input::IKeyListener
 {
 public:
     SInputSystem();
@@ -18,17 +18,24 @@ public:
     void update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt);
     void keyPressed(input::CKeyEvent& event);
     void keyReleased(input::CKeyEvent& event);
-    void mouseMoved(input::CMouseEvent& event);
 
-
+    bool firstUpdate;
     bool left;
     bool right;
     bool up;
     bool down;
     bool shift;
-    s16 yaw;
-    s16 pitch;
-    s16 roll;
+    f32 yaw;
+    f32 pitch;
+    f32 roll;
+    f32 rotX[3];
+    f32 rotY[3];
+    f32 rotXAvg;
+    f32 rotYAvg;
+    f32 rotateXSpeed;
+    f32 rotateYSpeed;
+    f32 timeDiff;
+
 
     input::ICursorControl *mouseControl;
     render::IRenderWindow *rwin;

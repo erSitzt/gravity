@@ -89,8 +89,8 @@ void SMovementSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventM
                     }
                     if(input->yaw != 0 || input->pitch != 0)
                     {
-                        std::cout << "Yaw : " << input->yaw << " Pitch : " << input->pitch << " DT : " << dt << std::endl;
-                        btVector3 Amount(input->yaw * dt, input->pitch * dt, 0);
+                        //std::cout << "Yaw : " << input->yaw << " Pitch : " << input->pitch << " DT : " << dt << std::endl;
+                        btVector3 Amount(input->yaw * dt , input->pitch * dt, 0);
                         input->yaw = 0;
                         input->pitch = 0;
 
@@ -98,17 +98,19 @@ void SMovementSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventM
                         //rotation.setRotation(up, 10);
                         rotation = btQuaternion(up,      Amount.getX()) * rotation;
                         rotation = btQuaternion(side,    Amount.getY()) * rotation;
-//                        rotation = btQuaternion(forward, Amount.getZ()) * rotation;
+                        //rotation = btQuaternion(forward, Amount.getZ()) * rotation;
 
                         // set new rotation
-                        std::cout << "Yaw : " << input->yaw << " Pitch : " << input->pitch << std::endl;
-                        std::cout << "Rot. Angle : " << rotation.getAngle() << std::endl;
-                        std::cout << "Rot.  X : " << rotation.getX() << " Rot. X : " << rotation.getY() << " Rot. X : " << rotation.getZ() << std::endl;
-                        std::cout << "UP.   X : " << up.getX() << " UP.   X : " << up.getY() << " UP.   X : " << up.getZ() << std::endl;
-                        std::cout << "FWD.  X : " << forward.getX() << " FWD.  X : " << forward.getY() << " FWD.  X : " << forward.getZ() << std::endl;
-                        std::cout << "SIDE. X : " << side.getX() << " SIDE. X : " << side.getY() << " SIDE. X : " << side.getZ() << std::endl;
+                        //std::cout << "Yaw : " << input->yaw << " Pitch : " << input->pitch << std::endl;
+                        //std::cout << "Rot. Angle : " << rotation.getAngle() << std::endl;
+                        //std::cout << "Rot.  X : " << rotation.getX() << " Rot. X : " << rotation.getY() << " Rot. X : " << rotation.getZ() << std::endl;
+                        //std::cout << "UP.   X : " << up.getX() << " UP.   X : " << up.getY() << " UP.   X : " << up.getZ() << std::endl;
+                        //std::cout << "FWD.  X : " << forward.getX() << " FWD.  X : " << forward.getY() << " FWD.  X : " << forward.getZ() << std::endl;
+                        //std::cout << "SIDE. X : " << side.getX() << " SIDE. X : " << side.getY() << " SIDE. X : " << side.getZ() << std::endl;
                         transform.setRotation(rotation);
-
+                        physics->rigidBody->clearForces();
+                        //physics->rigidBody->setLinearVelocity (btVector3(0,0,0));
+                        physics->rigidBody->setAngularVelocity (btVector3(0,0,0));
                         physics->rigidBody->setWorldTransform(transform);
 
 
@@ -150,39 +152,6 @@ void SMovementSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventM
             }
         }
     }
-}
-
-btVector3 SMovementSystem::GetForwardVector(btQuaternion q) const
-{
-    btScalar x = q.x();
-    btScalar y = q.y();
-    btScalar z = q.z();
-    btScalar w = q.w();
-    return btVector3( 2 * (x * z + w * y),
-                    2 * (y * x - w * x),
-                    1 - 2 * (x * x + y * y));
-}
-
-btVector3 SMovementSystem::GetUpVector(btQuaternion q) const
-{
-    btScalar x = q.x();
-    btScalar y = q.y();
-    btScalar z = q.z();
-    btScalar w = q.w();
-    return btVector3( 2 * (x * y - w * z),
-                    1 - 2 * (x * x + z * z),
-                    2 * (y * z + w * x));
-}
-
-btVector3 SMovementSystem::GetRightVector(btQuaternion q) const
-{
-    btScalar x = q.x();
-    btScalar y = q.y();
-    btScalar z = q.z();
-    btScalar w = q.w();
-    return btVector3( 1 - 2 * (y * y + z * z),
-                    2 * (x * y + w * z),
-                    2 * (x * z - w * y));
 }
 
 /*
