@@ -13,6 +13,8 @@ struct CPhysicsSystem : public System<CPhysicsSystem>, Receiver<CPhysicsSystem>
 public:
     btDiscreteDynamicsWorld* dynamicsWorld;
     EntityManager *emptr;
+    EventManager *evptr;
+    entityx::ptr<EventManager> events;
 
     CPhysicsSystem(entityx::ptr<EntityManager> em);
     virtual ~CPhysicsSystem();
@@ -35,8 +37,9 @@ struct BulletCallbackHelper
 {
     entityx::Entity::Id entityid;
     EntityManager *entitymanager;
+    EventManager *eventmanager;
 
-    BulletCallbackHelper(Entity::Id entityid, EntityManager *entitymanager) : entityid(entityid), entitymanager(entitymanager)
+    BulletCallbackHelper(Entity::Id entityid, EntityManager *entitymanager, EventManager *eventmanager) : entityid(entityid), entitymanager(entitymanager), eventmanager(eventmanager)
     {
         //ctor
     }

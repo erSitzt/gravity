@@ -5054,9 +5054,10 @@
 	<ctime>
 	<boost/limits.hpp>
 
-1381781457 /home/ersitzt/programming/gravity/events.h
+1385848554 /home/ersitzt/programming/gravity/events.h
 	"SPositionChangedEvent.h"
 	"SListenerPositionChangedEvent.h"
+	"SSoundEvent.h"
 
 1380220081 /home/ersitzt/programming/gravity/SPositionChangedEvent.h
 	<btBulletDynamicsCommon.h>
@@ -9177,7 +9178,7 @@
 	<lf/LfConfig.h>
 	<lf/persistence/CResourceLoader.h>
 
-1382556937 /home/ersitzt/programming/gravity/components.h
+1385847184 /home/ersitzt/programming/gravity/components.h
 	"SSoundComponent.h"
 	"SPhysicsComponent.h"
 	"SPhysicsGhostComponent.h"
@@ -9190,6 +9191,7 @@
 	"SLightComponent.h"
 	"SShadowComponent.h"
 	"SParticleComponent.h"
+	"SListenerComponent.h"
 
 1381875687 /home/ersitzt/programming/gravity/SSoundComponent.h
 	<entityx.h>
@@ -9401,10 +9403,10 @@
 	<lf/Lightfeather.h>
 	<entityx.h>
 
-1381876127 source:/home/ersitzt/programming/gravity/CPhysicsSystem.cpp
+1385849995 source:/home/ersitzt/programming/gravity/CPhysicsSystem.cpp
 	"CPhysicsSystem.h"
 
-1381679013 /home/ersitzt/programming/gravity/CPhysicsSystem.h
+1385849244 /home/ersitzt/programming/gravity/CPhysicsSystem.h
 	<btBulletDynamicsCommon.h>
 	"entityx.h"
 	"events.h"
@@ -9435,14 +9437,14 @@
 	"SMovementSystem.h"
 	"SSoundSystem.h"
 
-1381953655 /home/ersitzt/programming/gravity/SRenderSystem.h
+1385847499 /home/ersitzt/programming/gravity/SRenderSystem.h
 	<lf/Lightfeather.h>
 	"entityx.h"
 	"events.h"
 	"components.h"
 	"SSoundSystem.h"
 
-1381875687 /home/ersitzt/programming/gravity/SSoundSystem.h
+1385850872 /home/ersitzt/programming/gravity/SSoundSystem.h
 	<lf/Lightfeather.h>
 	"entityx.h"
 	"events.h"
@@ -9470,26 +9472,32 @@
 1385069389 source:/home/ersitzt/programming/gravity/EntityMotionState.cpp
 	"EntityMotionState.h"
 
-1385066021 source:/home/ersitzt/programming/gravity/GameManager.cpp
+1385850268 source:/home/ersitzt/programming/gravity/GameManager.cpp
 	"GameManager.h"
 
-1385414797 source:/home/ersitzt/programming/gravity/SInputSystem.cpp
+1385846226 source:/home/ersitzt/programming/gravity/SInputSystem.cpp
 	"SInputSystem.h"
 
-1385414965 source:/home/ersitzt/programming/gravity/SMovementSystem.cpp
+1385847399 source:/home/ersitzt/programming/gravity/SMovementSystem.cpp
 	"SMovementSystem.h"
 
-1381875687 source:/home/ersitzt/programming/gravity/SSoundSystem.cpp
+1385850872 source:/home/ersitzt/programming/gravity/SSoundSystem.cpp
 	"SSoundSystem.h"
 
 1381350821 source:/home/ersitzt/programming/gravity/tutorial1.cpp
 	<lf/Lightfeather.h>
 	"CTutorial1.h"
 
-1382989317 source:/home/ersitzt/programming/gravity/SRenderSystem.cpp
+1385847578 source:/home/ersitzt/programming/gravity/SRenderSystem.cpp
 	"SRenderSystem.h"
 
 1385065627 /home/ersitzt/programming/gravity/util.h
 	<lf/Lightfeather.h>
 	<btBulletDynamicsCommon.h>
+
+1385847197 /home/ersitzt/programming/gravity/SListenerComponent.h
+	<entityx.h>
+
+1385848554 /home/ersitzt/programming/gravity/SSoundEvent.h
+	"entityx.h"
 

@@ -4,8 +4,9 @@ extern ContactAddedCallback gContactAddedCallback;
 CPhysicsSystem::CPhysicsSystem(entityx::ptr<entityx::EntityManager> em)
 {
     //ctor
-    entityx::EntityManager * hans = (entityx::EntityManager*)em.get();
-    emptr = hans;
+    emptr = (entityx::EntityManager*)em.get();
+
+
 }
 
 CPhysicsSystem::~CPhysicsSystem()
@@ -18,19 +19,23 @@ bool CPhysicsSystem::contactCallbackFunction(btManifoldPoint& cp,const btCollisi
     static_assert(sizeof(void*) == sizeof(uint64_t), "need 64 bit pointers");
     BulletCallbackHelper *helper = reinterpret_cast<BulletCallbackHelper*>(obj1->getCollisionObject()->getUserPointer());
     entityx::EntityManager *em = (entityx::EntityManager*)(helper->entitymanager);
+    entityx::EventManager *ev = (entityx::EventManager*)(helper->eventmanager);
     entityx::Entity ent = em->get(helper->entityid);
     entityx::ptr<SoundComponent> sound = ent.component<SoundComponent>();
     if(sound)
     {
+
         std::string snd = "/home/ersitzt/impact.wav";
         sound->setSound(snd, true);
+        ev->emit<SoundEvent>(ent);
     }
 }
 
 void CPhysicsSystem::configure(entityx::ptr<EventManager> event_manager)
 {
     std::cout << "CPhysicsSystem configure" << std::endl;
-
+    this->events = event_manager;
+    evptr = (entityx::EventManager*)this->events.get();
     //Setup Bullet Physics
     btBroadphaseInterface* broadphase = new btDbvtBroadphase();
     btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
@@ -55,7 +60,7 @@ void CPhysicsSystem::receive(const ComponentAddedEvent<PhysicsGhostComponent> &p
     if(phys)
     {
         // setUserPointer to BulletCallbackHelper which has a ref to the entitymanager an the id of the entity this component belongs to, so we can act on collisions
-        gho->ghost->setUserPointer(reinterpret_cast<void*>(new BulletCallbackHelper(ent.id(), emptr)));
+        gho->ghost->setUserPointer(reinterpret_cast<void*>(new BulletCallbackHelper(ent.id(), emptr, evptr)));
     }
 
     dynamicsWorld->addCollisionObject(gho->ghost,btBroadphaseProxy::SensorTrigger,btBroadphaseProxy::AllFilter & ~btBroadphaseProxy::SensorTrigger);
@@ -66,7 +71,7 @@ void CPhysicsSystem::receive(const ComponentAddedEvent<PhysicsComponent> &physic
     entityx::ptr<PhysicsComponent> phys = physicscomponent.component;
     entityx::Entity entity = physicscomponent.entity;
     // setUserPointer to BulletCallbackHelper which has a ref to the entitymanager an the id of the entity this component belongs to, so we can act on collisions
-    phys->rigidBody->setUserPointer(reinterpret_cast<void*>(new BulletCallbackHelper(entity.id(), emptr)));
+    phys->rigidBody->setUserPointer(reinterpret_cast<void*>(new BulletCallbackHelper(entity.id(), emptr, evptr)));
     dynamicsWorld->addRigidBody(phys->rigidBody);
 }
 void CPhysicsSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt)

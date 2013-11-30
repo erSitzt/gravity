@@ -35,6 +35,7 @@ void SRenderSystem::configure(entityx::ptr<EventManager> event_manager)
     event_manager->subscribe<ComponentAddedEvent<CameraComponent>>(*this);
     event_manager->subscribe<ComponentAddedEvent<LightComponent>>(*this);
     event_manager->subscribe<PositionChangedEvent>(*this);
+    this->events = event_manager;
 
 
     setup2D();
@@ -53,6 +54,7 @@ void SRenderSystem::receive(const PositionChangedEvent &poschange)
         entityx::ptr<ModelComponent> model = ent.component<ModelComponent>();
         entityx::ptr<CameraComponent> camera = ent.component<CameraComponent>();
         entityx::ptr<LightComponent> light = ent.component<LightComponent>();
+        entityx::ptr<ListenerComponent> listener = ent.component<ListenerComponent>();
         if(model)
         {
             model->componentnode->setPosition(pos->getPositionLF());
@@ -69,6 +71,10 @@ void SRenderSystem::receive(const PositionChangedEvent &poschange)
         {
             light->light->setPosition(pos->getPositionLF());
             light->light->setRotation(rot->getRotationLF());
+        }
+        if(listener)
+        {
+            this->events->emit<ListenerPositionChangedEvent>(pos->getPositionLF());
         }
     }
 }

@@ -27,6 +27,7 @@ public:
     void keyPressed(input::CKeyEvent& event);
     void mouseClicked(input::CMouseEvent& event);
 
+    entityx::ptr<EventManager> events;
     render::IRenderWindow *rwin;
     scene::CScene *scn;
     scene::C3DCamera *cam;

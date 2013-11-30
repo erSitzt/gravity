@@ -3,5 +3,6 @@
 
 #include "SPositionChangedEvent.h"
 #include "SListenerPositionChangedEvent.h"
+#include "SSoundEvent.h"
 
 #endif // EVENTS_H_INCLUDED

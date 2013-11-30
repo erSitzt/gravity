@@ -88,6 +88,7 @@ void SInputSystem::configure(entityx::ptr<EventManager> event_manager)
     std::cout << "SInputSystem configure" << std::endl;
     mouseControl = rwin->getCursorControl();
     mouseControl->setPosition( 0.5f, 0.5f );
+    mouseControl->setVisible( false );
 
 }
 

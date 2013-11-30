@@ -17,7 +17,10 @@ public:
     virtual ~SSoundSystem();
     void configure(entityx::ptr<EventManager> event_manager);
     void update(entityx::ptr<EntityManager> es, entityx::ptr<EventManager> events, double dt);
+    void receive(const SoundEvent &sound);
     void receive(const ListenerPositionChangedEvent &listenerposchange);
+    void receive(const ComponentAddedEvent<ListenerComponent> &listenercomponent);
+    void receive(const ComponentAddedEvent<SoundComponent> &soundcomponent);
     static void setListenerPosition(core::vector3df pos);
 
 };

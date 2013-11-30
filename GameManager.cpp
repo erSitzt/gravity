@@ -47,12 +47,13 @@ create ModelComponent only by ResourceName ??? */
     playerentity.assign<SoundComponent>("/home/ersitzt/impact.wav");
     playerentity.assign<ModelComponent>(model);
     playerentity.assign<InputComponent>();
+    playerentity.assign<ListenerComponent>();
     //playerentity.assign<PlayerComponent>();
     playerentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(playerrot->getRotationBT(), playerpos->getPositionBT()), playerentity, event_manager), 1000, btVector3(0,0,0));
     playerentity.assign<CameraComponent>(CLFRender::getInstance().getRenderWindow(0));
 
 
-    for(int i = 0; i<=1; i++)
+    for(int i = 0; i<=10; i++)
     {
         entityx::Entity tmpentity = entity_manager->create();
         tmpentity.assign<PositionComponent>(CLFOS::getInstance().getRandomizer()->randf() * i + 10,CLFOS::getInstance().getRandomizer()->randf() *i +10,CLFOS::getInstance().getRandomizer()->randf()*i +10);
@@ -67,7 +68,7 @@ create ModelComponent only by ResourceName ??? */
         {
             //tmpentity.assign<InputComponent>();
             tmpentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(rotation->getRotationBT(), position->getPositionBT()), tmpentity, event_manager), 1000, btVector3(0,0,0));
-            //tmpentity.assign<PhysicsGhostComponent>(new btSphereShape(btScalar(10000)), position->getPositionBT());
+            tmpentity.assign<PhysicsGhostComponent>(new btSphereShape(btScalar(10000)), position->getPositionBT());
             tmpentity.assign<CameraComponent>(core::recti(10,10,410,200));
             tmpentity.assign<LightComponent>(core::CColorF(0.4f, 0.0f, 0.0f, 1.0f));
 

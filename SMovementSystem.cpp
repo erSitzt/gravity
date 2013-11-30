@@ -135,7 +135,7 @@ void SMovementSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventM
                         pos->z -= 1.0f;
                     }
 
-                    this->events->emit<PositionChangedEvent>(entity);
+                    this->events->emit<ListenerPositionChangedEvent>(pos->getPositionLF());
                 }
                 else
                 {
