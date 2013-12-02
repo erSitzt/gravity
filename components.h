@@ -15,6 +15,7 @@
 #include "SShadowComponent.h"
 #include "SParticleComponent.h"
 #include "SListenerComponent.h"
+#include "SWeaponComponent.h"
 
 
 

@@ -21,6 +21,7 @@ void GameManager::configure()
     system_manager->add<SInputSystem>();
     system_manager->add<SMovementSystem>();
     system_manager->add<SSoundSystem>();
+    system_manager->add<SWeaponSystem>();
 }
 void GameManager::initialize()
 {
@@ -51,6 +52,7 @@ create ModelComponent only by ResourceName ??? */
     //playerentity.assign<PlayerComponent>();
     playerentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(playerrot->getRotationBT(), playerpos->getPositionBT()), playerentity, event_manager), 1000, btVector3(0,0,0));
     playerentity.assign<CameraComponent>(CLFRender::getInstance().getRenderWindow(0));
+    playerentity.assign<WeaponComponent>();
 
 
     for(int i = 0; i<=10; i++)

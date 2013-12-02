@@ -7,6 +7,7 @@
 #include "SInputSystem.h"
 #include "SMovementSystem.h"
 #include "SSoundSystem.h"
+#include "SWeaponSystem.h"
 
 
 #endif // SYSTEMS_H_INCLUDED

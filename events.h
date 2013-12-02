@@ -4,5 +4,6 @@
 #include "SPositionChangedEvent.h"
 #include "SListenerPositionChangedEvent.h"
 #include "SSoundEvent.h"
+#include "SWeaponEvent.h"
 
 #endif // EVENTS_H_INCLUDED

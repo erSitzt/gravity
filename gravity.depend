@@ -5054,10 +5054,11 @@
 	<ctime>
 	<boost/limits.hpp>
 
-1385848554 /home/ersitzt/programming/gravity/events.h
+1386016569 /home/ersitzt/programming/gravity/events.h
 	"SPositionChangedEvent.h"
 	"SListenerPositionChangedEvent.h"
 	"SSoundEvent.h"
+	"SWeaponEvent.h"
 
 1380220081 /home/ersitzt/programming/gravity/SPositionChangedEvent.h
 	<btBulletDynamicsCommon.h>
@@ -9178,7 +9179,7 @@
 	<lf/LfConfig.h>
 	<lf/persistence/CResourceLoader.h>
 
-1385847184 /home/ersitzt/programming/gravity/components.h
+1386016172 /home/ersitzt/programming/gravity/components.h
 	"SSoundComponent.h"
 	"SPhysicsComponent.h"
 	"SPhysicsGhostComponent.h"
@@ -9192,6 +9193,7 @@
 	"SShadowComponent.h"
 	"SParticleComponent.h"
 	"SListenerComponent.h"
+	"SWeaponComponent.h"
 
 1381875687 /home/ersitzt/programming/gravity/SSoundComponent.h
 	<entityx.h>
@@ -9430,12 +9432,13 @@
 	"systems.h"
 	"EntityMotionState.h"
 
-1381347082 /home/ersitzt/programming/gravity/systems.h
+1386016372 /home/ersitzt/programming/gravity/systems.h
 	"CPhysicsSystem.h"
 	"SRenderSystem.h"
 	"SInputSystem.h"
 	"SMovementSystem.h"
 	"SSoundSystem.h"
+	"SWeaponSystem.h"
 
 1385847499 /home/ersitzt/programming/gravity/SRenderSystem.h
 	<lf/Lightfeather.h>
@@ -9450,7 +9453,7 @@
 	"events.h"
 	"components.h"
 
-1385415075 /home/ersitzt/programming/gravity/SInputSystem.h
+1386017834 /home/ersitzt/programming/gravity/SInputSystem.h
 	<lf/Lightfeather.h>
 	"entityx.h"
 	"events.h"
@@ -9472,10 +9475,10 @@
 1385069389 source:/home/ersitzt/programming/gravity/EntityMotionState.cpp
 	"EntityMotionState.h"
 
-1385850268 source:/home/ersitzt/programming/gravity/GameManager.cpp
+1386018191 source:/home/ersitzt/programming/gravity/GameManager.cpp
 	"GameManager.h"
 
-1385846226 source:/home/ersitzt/programming/gravity/SInputSystem.cpp
+1386018032 source:/home/ersitzt/programming/gravity/SInputSystem.cpp
 	"SInputSystem.h"
 
 1385847399 source:/home/ersitzt/programming/gravity/SMovementSystem.cpp
@@ -9500,4 +9503,18 @@
 
 1385848554 /home/ersitzt/programming/gravity/SSoundEvent.h
 	"entityx.h"
+
+1386018055 /home/ersitzt/programming/gravity/SWeaponEvent.h
+	"entityx.h"
+
+1386016158 /home/ersitzt/programming/gravity/SWeaponComponent.h
+	<entityx.h>
+
+1386016771 /home/ersitzt/programming/gravity/SWeaponSystem.h
+	"entityx.h"
+	"events.h"
+	"components.h"
+
+1386018082 source:/home/ersitzt/programming/gravity/SWeaponSystem.cpp
+	"SWeaponSystem.h"
 

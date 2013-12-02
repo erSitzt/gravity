@@ -212,6 +212,7 @@
 		<Unit filename="SInputSystem.cpp" />
 		<Unit filename="SInputSystem.h" />
 		<Unit filename="SLightComponent.h" />
+		<Unit filename="SListenerComponent.h" />
 		<Unit filename="SListenerPositionChangedEvent.h" />
 		<Unit filename="SModelComponent.h" />
 		<Unit filename="SMovementSystem.cpp" />
@@ -227,6 +228,7 @@
 		<Unit filename="SRotationComponent.h" />
 		<Unit filename="SShadowComponent.h" />
 		<Unit filename="SSoundComponent.h" />
+		<Unit filename="SSoundEvent.h" />
 		<Unit filename="SSoundSystem.cpp" />
 		<Unit filename="SSoundSystem.h" />
 		<Unit filename="components.h" />

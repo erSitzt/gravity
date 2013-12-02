@@ -11,8 +11,10 @@ SInputSystem::SInputSystem()
     left = false;
     right = false;
     rwin->addKeyListener(this);
+    rwin->addMouseListener(this);
     rotateXSpeed = 100.0f;
     rotateYSpeed = 100.0f;
+
     //ctor
 }
 
@@ -86,6 +88,7 @@ void SInputSystem::update(entityx::ptr<EntityManager> es, entityx::ptr<EventMana
 void SInputSystem::configure(entityx::ptr<EventManager> event_manager)
 {
     std::cout << "SInputSystem configure" << std::endl;
+    events = event_manager;
     mouseControl = rwin->getCursorControl();
     mouseControl->setPosition( 0.5f, 0.5f );
     mouseControl->setVisible( false );
@@ -145,4 +148,11 @@ void SInputSystem::keyReleased(input::CKeyEvent& event)
         break;
     }
 }
-
+void SInputSystem::mousePressed(input::CMouseEvent& event)
+{
+    std::cout << "Some Mouse Button pressed" << std::endl;
+    if(event.getButton() == input::EMBM_BUTTON1)
+    {
+        this->events->emit<WeaponEvent>();
+    }
+}
