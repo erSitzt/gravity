@@ -4,7 +4,7 @@
 #include <btBulletDynamicsCommon.h>
 #include "entityx.h"
 #include "events.h"
-#include "components.h".h"
+#include "components.h"
 
 using namespace entityx;
 

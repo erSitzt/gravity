@@ -48,12 +48,15 @@ create ModelComponent only by ResourceName ??? */
     playerentity.assign<SoundComponent>("/home/ersitzt/impact.wav");
     playerentity.assign<ModelComponent>(model);
     playerentity.assign<InputComponent>();
+    entityx::ptr<InputComponent> inputest = playerentity.component<InputComponent>();
     playerentity.assign<ListenerComponent>();
     //playerentity.assign<PlayerComponent>();
     playerentity.assign<PhysicsComponent>(new btSphereShape(btScalar(5)), new EntityMotionState(btTransform(playerrot->getRotationBT(), playerpos->getPositionBT()), playerentity, event_manager), 1000, btVector3(0,0,0));
     playerentity.assign<CameraComponent>(CLFRender::getInstance().getRenderWindow(0));
     playerentity.assign<WeaponComponent>();
 
+    cereal::JSONOutputArchive archive( std::cout );
+    inputest->save(archive);
 
     for(int i = 0; i<=10; i++)
     {
